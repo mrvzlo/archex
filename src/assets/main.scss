@@ -1,0 +1,62 @@
+$primary: #798268;
+$bg: darken($primary, 20%);
+$main: darken($primary, 10%);
+$highlight: lighten($primary, 5%);
+
+body {
+   margin: 0;
+}
+
+#app {
+   width: 100%;
+   height: 100vh;
+   display: flex;
+   background: $bg;
+}
+
+.grid {
+   margin: auto;
+   --s: 5vw;
+   --m: 1px;
+   --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
+   font-size: 0;
+   display: flex;
+   width: calc(var(--s) * 10 + var(--m) * 20 + 1.8px);
+   overflow: hidden;
+
+   .spot {
+      width: var(--s);
+      margin: var(--m);
+      height: calc(var(--s) * 1.1547);
+      display: inline-block;
+      font-size: initial;
+      clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+      background: $main;
+      margin-bottom: calc(var(--m) - var(--s) * 0.2885);
+      position: relative;
+
+      &:hover {
+         background: $highlight;
+      }
+
+      &.disabled {
+         pointer-events: none;
+         background: $bg;
+      }
+   }
+
+   .container {
+      margin-left: calc(var(--s) * -0.5);
+      margin-right: calc(var(--s) * -1 + 5px);
+      //margin-top: calc(var(--f) * -0.5);
+      margin-bottom: calc(var(--s) * -0.58);
+
+      &::before {
+         content: '';
+         width: calc(var(--s) / 2 + var(--m));
+         float: left;
+         height: 120%;
+         shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px), #000 0 var(--f));
+      }
+   }
+}

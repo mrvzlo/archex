@@ -3,9 +3,9 @@
 </style>
 
 <template>
-   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+   <field-view />
 </template>
 
 <script lang="ts" setup>
-import HelloWorld from './components/HelloWorld.vue';
+import FieldView from './components/field-view.vue';
 </script>
