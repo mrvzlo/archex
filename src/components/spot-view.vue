@@ -1,18 +1,35 @@
 <template>
    <div>
-      <img src="../assets/images/Dirt.png" v-if="spot.type === types.Dirt" />
-      <img src="../assets/images/Grass.png" v-if="spot.type === types.Grass" />
-      <img src="../assets/images/Gravel.png" v-if="spot.type === types.Gravel" />
-      <img src="../assets/images/Sand.png" v-if="spot.type === types.Sand" />
-      <img src="../assets/images/Stone.png" v-if="spot.type === types.Stone" />
+      <img :src="getImgUrl()" />
    </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
+import { BiomType } from './models/biom.type';
 import Spot from './models/spot';
-import { SpotType } from './models/spot.type';
 
-const types = SpotType;
-defineProps({ spot: Spot });
+const props = defineProps({ spot: Spot });
+
+function getImgUrl() {
+   const images = getFolder()!;
+   return images('./' + props.spot.spotType + '.png');
+}
+
+function getFolder() {
+   switch (props.spot.biomType) {
+      case BiomType.None:
+         return require.context('../assets/images/none', false, /\.png$/);
+      case BiomType.Grass:
+         return require.context('../assets/images/grass', false, /\.png$/);
+      case BiomType.Gravel:
+         return require.context('../assets/images/gravel', false, /\.png$/);
+      case BiomType.Dirt:
+         return require.context('../assets/images/dirt', false, /\.png$/);
+      case BiomType.Sand:
+         return require.context('../assets/images/sand', false, /\.png$/);
+      case BiomType.Ice:
+         return require.context('../assets/images/ice', false, /\.png$/);
+   }
+}
 </script>

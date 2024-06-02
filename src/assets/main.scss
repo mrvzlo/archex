@@ -17,29 +17,25 @@ body {
 .grid {
    margin: auto;
    --count: 10;
-   --s: 6vw;
-   --m: 0px;
+   --s: 120px;
+   --m: 10px;
    --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
-   font-size: 0;
    display: flex;
    flex-wrap: wrap;
-   width: calc(var(--s) * (var(--count) + 0.5) + var(--m) * var(--count) * 2);
+   width: calc(var(--s) * var(--count) * 1.5);
+   gap: 0px calc(var(--s) / 2);
+   transform: translateX(calc(var(--s) * -0.5));
 
    .spot {
       width: var(--s);
-      margin: var(--m);
-      height: calc(var(--s) * 1.1547);
-      display: inline-block;
-      font-size: initial;
-      clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-      margin-bottom: calc(var(--m) - var(--s) * 0.2885);
+      height: calc(var(--s) * 0.866);
       position: relative;
       transition: all 0.1s;
+      margin-block: calc(var(--s) * -0.2165);
 
       &:hover {
          transform: scale(1.2);
          z-index: 10;
-         filter: grayscale(0.4);
       }
 
       &.disabled {
@@ -48,11 +44,15 @@ body {
       }
 
       &.even {
-         transform: translateX(calc(50% + var(--m)));
+         transform: translateX(calc(75%));
 
          &:hover {
-            transform: scale(1.2) translateX(calc(50% + var(--m)));
+            transform: scale(1.2) translateX(calc(62.5%));
          }
+      }
+
+      > * {
+         margin: auto;
       }
    }
 }
@@ -60,6 +60,49 @@ body {
 img {
    width: 100%;
    height: auto;
-   scale: 1.4;
-   padding-top: 5px;
+}
+
+.toolbar {
+   position: fixed;
+   display: flex;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   height: 70px;
+   background: #fff3;
+   z-index: 100;
+   border-top: solid 4px black;
+
+   .button {
+      width: 50px;
+      padding: 10px 20px;
+      position: relative;
+      cursor: pointer;
+
+      &:hover {
+         background-color: #fff3;
+         box-shadow: inset 2px 0 #000, inset -2px 0 #000;
+
+         .inner {
+            display: flex;
+         }
+      }
+   }
+
+   .inner {
+      display: none;
+      width: 210px;
+      flex-wrap: wrap;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      background-color: #606459;
+      border: solid 3px black;
+      padding: 5px;
+
+      .grid {
+         padding-block: 30px;
+         transform: none;
+      }
+   }
 }

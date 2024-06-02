@@ -10,20 +10,24 @@
          <spot-view :spot="spot" />
       </div>
    </div>
+   <div class="toolbar">
+      <tool-bar />
+   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive } from 'vue';
 import SpotView from './spot-view.vue';
+import ToolBar from './tool-bar.vue';
 import FieldManager from './field.manager';
 
-const width = 9;
-const height = 7;
+const width = 5;
+const height = 11;
 const manager = new FieldManager();
 const field = reactive(manager.createField(width, height));
 
 function select(index: number) {
-   field.spots[index].type++;
-   field.spots[index].type %= 5;
+   field.spots[index].spotType++;
+   field.spots[index].spotType %= 14;
 }
 </script>
