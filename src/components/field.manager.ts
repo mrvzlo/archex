@@ -14,6 +14,7 @@ export default class FieldManager {
          field.spots.push(spot);
       }
       this.formatField(field);
+      this.setMatches(field, null);
       return field;
    }
 
@@ -61,5 +62,22 @@ export default class FieldManager {
       const verticalSteps = dy > horizontalSteps ? (dy - horizontalSteps) / 2 : (horizontalSteps + dy) % 2;
 
       return verticalSteps + horizontalSteps;
+   }
+
+   public setMatches(field: GameField, spot: Spot | null) {
+      field.spots.forEach((x) => {
+         x.mismatch = false;
+         if (!spot) return;
+
+         if (spot.spotType === SpotType.Cave) {
+            x.mismatch = x.spotType !== SpotType.Mountain;
+            return;
+         }
+         x.mismatch = x.spotType === SpotType.Mountain || x.spotType === SpotType.Cave;
+         if (spot.biomType === BiomType.Grass) {
+            x.mismatch = x.biomType !== BiomType.Dirt;
+            return;
+         }
+      });
    }
 }

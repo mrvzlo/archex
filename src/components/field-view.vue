@@ -1,7 +1,7 @@
 <template>
    <div class="grid map" :style="'--count:' + width" :class="{ hoverable: mode.hover }">
       <div
-         :class="{ empty: spot.empty, disabled: !spot.available, odd: !spot.evenRow, even: spot.evenRow }"
+         :class="{ empty: spot.empty, disabled: !spot.available, odd: !spot.evenRow, even: spot.evenRow, mismatch: spot.mismatch }"
          v-for="(spot, j) in field.spots"
          :key="j"
          class="spot"
@@ -36,14 +36,17 @@ let selected = reactive({ spot: null as unknown as Spot | null });
 
 const placeSelected = (index: number) => {
    if (!mode.hover) return;
-   field.spots[index].spotType = selected.spot!.spotType;
-   if (selected.spot!.biomType !== BiomType.None) field.spots[index].biomType = selected.spot!.biomType;
+   const spot = field.spots[index];
+   if (spot.mismatch) return;
+   spot.spotType = selected.spot!.spotType;
+   if (selected.spot!.biomType !== BiomType.None) spot.biomType = selected.spot!.biomType;
    deselect();
 };
 
 const selectFromToolBar = (spot: Spot) => {
    selected.spot = spot;
    mode.hover = true;
+   manager.setMatches(field, spot);
 };
 
 window.onmousemove = (event: MouseEvent) => {
@@ -58,5 +61,6 @@ window.onkeyup = (event: KeyboardEvent) => {
 const deselect = () => {
    mode.hover = false;
    selected.spot = null;
+   manager.setMatches(field, null);
 };
 </script>

@@ -6,4 +6,5 @@ export default interface Spot {
    evenRow?: boolean;
    biomType: BiomType;
    spotType: SpotType;
+   mismatch?: boolean;
 }

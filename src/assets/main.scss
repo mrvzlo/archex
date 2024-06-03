@@ -55,14 +55,12 @@ img {
 }
 
 .map.hoverable {
-   .spot {
-      &:hover {
-         transform: scale(1.2);
-         z-index: 10;
+   .spot:not(.mismatch):hover {
+      transform: scale(1.2);
+      z-index: 10;
 
-         &.even {
-            transform: scale(1.2) translateX(calc(62.5%));
-         }
+      &.even {
+         transform: scale(1.2) translateX(calc(62.5%));
       }
    }
 }
@@ -128,4 +126,8 @@ img {
    transform: translate(-50%, -50%);
    width: 120px;
    z-index: 100;
+}
+
+.spot.mismatch {
+   filter: opacity(0.7) blur(5px);
 }
