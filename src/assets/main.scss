@@ -30,13 +30,9 @@ body {
       width: var(--s);
       height: calc(var(--s) * 0.866);
       position: relative;
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
       transition: all 0.1s;
       margin-block: calc(var(--s) * -0.2165);
-
-      &:hover {
-         transform: scale(1.2);
-         z-index: 10;
-      }
 
       &.disabled {
          pointer-events: none;
@@ -45,10 +41,6 @@ body {
 
       &.even {
          transform: translateX(calc(75%));
-
-         &:hover {
-            transform: scale(1.2) translateX(calc(62.5%));
-         }
       }
 
       > * {
@@ -62,14 +54,32 @@ img {
    height: auto;
 }
 
+.map.hoverable {
+   .spot {
+      &:hover {
+         transform: scale(1.2);
+         z-index: 10;
+
+         &.even {
+            transform: scale(1.2) translateX(calc(62.5%));
+         }
+      }
+   }
+}
+
+.invert {
+   filter: invert(0.8);
+}
+
 .toolbar {
    position: fixed;
    display: flex;
+   justify-content: center;
    left: 0;
    right: 0;
    bottom: 0;
    height: 70px;
-   background: #fff3;
+   background: #606459;
    z-index: 100;
    border-top: solid 4px black;
 
@@ -85,6 +95,10 @@ img {
 
          .inner {
             display: flex;
+         }
+
+         .invert {
+            filter: invert(1);
          }
       }
    }
@@ -105,4 +119,13 @@ img {
          transform: none;
       }
    }
+}
+
+.cursor-img {
+   pointer-events: none;
+   opacity: 0.9;
+   position: fixed;
+   transform: translate(-50%, -50%);
+   width: 120px;
+   z-index: 100;
 }

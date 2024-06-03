@@ -11,12 +11,12 @@ import Spot from './models/spot';
 
 const props = defineProps({ spot: Spot });
 
-function getImgUrl() {
+const getImgUrl = () => {
    const images = getFolder()!;
    return images('./' + props.spot.spotType + '.png');
-}
+};
 
-function getFolder() {
+const getFolder = () => {
    switch (props.spot.biomType) {
       case BiomType.None:
          return require.context('../assets/images/none', false, /\.png$/);
@@ -31,5 +31,5 @@ function getFolder() {
       case BiomType.Ice:
          return require.context('../assets/images/ice', false, /\.png$/);
    }
-}
+};
 </script>
