@@ -10,7 +10,7 @@ export default class FieldManager {
       for (let i = 0; i < count; i++) {
          const biomType = this.getBiom(i, field);
          const spotType = this.getSpot(i, field);
-         const spot = { empty: true, biomType, spotType } as Spot;
+         const spot = { biomType, spotType } as Spot;
          field.spots.push(spot);
       }
       this.formatField(field);
@@ -35,6 +35,10 @@ export default class FieldManager {
       if (i >= count - field.width * 2) return SpotType.Hill;
       if (this.getDistance(center, i, field.width) < 2) return SpotType.Tree;
       return SpotType.Empty;
+   }
+
+   private getResourseType(i: number, field: GameField) {
+      //
    }
 
    public formatField(field: GameField) {
@@ -65,19 +69,21 @@ export default class FieldManager {
    }
 
    public setMatches(field: GameField, spot: Spot | null) {
-      field.spots.forEach((x) => {
-         x.mismatch = false;
-         if (!spot) return;
+      field.spots.forEach((x) => (x.mismatch = !this.checkMatch(x, spot)));
+   }
 
-         if (spot.spotType === SpotType.Cave) {
-            x.mismatch = x.spotType !== SpotType.Mountain;
-            return;
-         }
-         x.mismatch = x.spotType === SpotType.Mountain || x.spotType === SpotType.Cave;
-         if (spot.biomType === BiomType.Grass) {
-            x.mismatch = x.biomType !== BiomType.Dirt;
-            return;
-         }
-      });
+   public checkMatch(oldSpot: Spot, newSpot: Spot | null) {
+      if (!newSpot) return true;
+      const isEmpty = oldSpot.spotType === SpotType.Empty;
+      const isRed = oldSpot.biomType === BiomType.Dirt;
+
+      if (newSpot.spotType === SpotType.Cave) return oldSpot.spotType === SpotType.Mountain;
+      if (newSpot.spotType === SpotType.Fort) return isEmpty && !isRed;
+      if (newSpot.spotType === SpotType.Tower) return isEmpty && !isRed;
+      if (newSpot.spotType === SpotType.City) return isEmpty && !isRed;
+      if (newSpot.spotType === SpotType.Farm) return isEmpty && !isRed;
+      if (newSpot.biomType === BiomType.Grass) return isRed;
+
+      return oldSpot.spotType !== SpotType.Mountain && oldSpot.spotType !== SpotType.Cave;
    }
 }

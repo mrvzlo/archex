@@ -8,9 +8,11 @@ export enum SpotType {
    City,
    Fortress,
    House,
+   Fort,
    Tower,
-   BigTower,
    DeadTrees,
    Lake,
    Farm,
+   Woodman,
+   Water = 99,
 }

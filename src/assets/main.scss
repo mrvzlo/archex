@@ -76,45 +76,27 @@ img {
    left: 0;
    right: 0;
    bottom: 0;
-   height: 70px;
+   height: 100px;
    background: #606459;
    z-index: 100;
    border-top: solid 4px black;
 
-   .button {
-      width: 50px;
-      padding: 10px 20px;
-      position: relative;
+   img {
+      height: 90px;
+      width: auto;
+   }
+
+   > * {
+      padding: 5px;
       cursor: pointer;
 
       &:hover {
          background-color: #fff3;
          box-shadow: inset 2px 0 #000, inset -2px 0 #000;
 
-         .inner {
-            display: flex;
-         }
-
          .invert {
             filter: invert(1);
          }
-      }
-   }
-
-   .inner {
-      display: none;
-      width: 210px;
-      flex-wrap: wrap;
-      position: absolute;
-      bottom: 100%;
-      left: 0;
-      background-color: #606459;
-      border: solid 3px black;
-      padding: 5px;
-
-      .grid {
-         padding-block: 30px;
-         transform: none;
       }
    }
 }
@@ -130,4 +112,33 @@ img {
 
 .spot.mismatch {
    filter: opacity(0.7) blur(5px);
+}
+
+.tooltip {
+   position: fixed;
+   text-align: center;
+   font-weight: 600;
+   background: #000e;
+   border: solid 1px white;
+   border-radius: 2px;
+   color: white;
+   padding-block: 5px;
+   transition: all 0.4s;
+   z-index: 100;
+   pointer-events: none;
+}
+
+.rule {
+   position: absolute;
+   left: 100%;
+   bottom: 0;
+   background-color: #606459;
+   padding: 5px;
+   padding-left: 15px;
+   border: solid 3px black;
+   border-left: none;
+   border-bottom: none;
+   width: 250px;
+   font-size: 20px;
+   color: white;
 }

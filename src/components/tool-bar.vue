@@ -1,38 +1,40 @@
 <template>
-   <div class="button">
-      <div class="inner">
-         <div class="grid" style="--count: 2">
-            <div class="spot" v-on:click="selectSpot(SpotType.House)"><img src="../assets/images/none/8.png" /></div>
-            <div class="spot even" v-on:click="selectSpot(SpotType.Tower)"><img src="../assets/images/none/9.png" /></div>
-            <div class="spot" v-on:click="selectSpot(SpotType.BigTower)"><img src="../assets/images/none/10.png" /></div>
-            <div class="spot even" v-on:click="selectSpot(SpotType.Farm)"><img src="../assets/images/none/13.png" /></div>
-            <div class="spot" v-on:click="selectSpot(SpotType.City)"><img src="../assets/images/none/6.png" /></div>
-            <div class="spot even" v-on:click="selectSpot(SpotType.Cave)"><img src="../assets/images/none/5.png" /></div>
-         </div>
-      </div>
-      <img class="invert" src="../assets/images/buttons/hammer.png" />
+   <div v-for="(spot, i) of buildings" v-on:click="selectSpot(spot)" @mouseenter="hovered.spot = spot" @mouseleave="hovered.spot = null">
+      <spot-view :spot="spot" :showTooltip="true" />
    </div>
-   <div class="button">
-      <div class="inner" style="--count: 2">
-         <div class="grid">
-            <div class="spot" v-on:click="selectSpot(SpotType.Empty, BiomType.Grass)"><img src="../assets/images/grass/0.png" /></div>
-            <div class="spot even" v-on:click="selectSpot(SpotType.Tree, BiomType.Grass)"><img src="../assets/images/grass/1.png" /></div>
-            <div class="spot" v-on:click="selectSpot(SpotType.Forest, BiomType.Grass)"><img src="../assets/images/grass/2.png" /></div>
-         </div>
-      </div>
-      <img class="invert" src="../assets/images/buttons/gardening.png" />
-   </div>
+   <div class="position-absolute rule" v-if="hovered.spot">{{ rules[hovered.spot.spotType] }}</div>
 </template>
 
 <script setup lang="ts">
+import SpotView from './spot-view.vue';
 import { BiomType } from './models/biom.type';
-import Spot from './models/spot';
 import { SpotType } from './models/spot.type';
-import { defineProps } from 'vue';
+import Spot from './models/spot';
+import { defineProps, reactive } from 'vue';
+import Cost from './models/cost';
+
+const hovered = reactive({ spot: null as any as Spot });
+
+const buildings: Spot[] = [
+   { spotType: SpotType.Empty, biomType: BiomType.Grass },
+   { spotType: SpotType.Tower, biomType: BiomType.None },
+   { spotType: SpotType.Fort, biomType: BiomType.None },
+   { spotType: SpotType.Farm, biomType: BiomType.None },
+   { spotType: SpotType.City, biomType: BiomType.None },
+   { spotType: SpotType.Cave, biomType: BiomType.None },
+];
+
+const rules: string[] = [];
+rules[SpotType.Empty] = 'Озеленяет клетку';
+rules[SpotType.Tower] = 'Строится на поляне';
+rules[SpotType.Fort] = 'Строится на поляне';
+rules[SpotType.Farm] = 'Строится на поляне';
+rules[SpotType.City] = 'Строится на поляне';
+rules[SpotType.Cave] = 'Выкапывается в горе';
+
+const costs: Cost[] = [];
 
 const props = defineProps({ selectFunc: Function });
 
-const selectSpot = (type: SpotType, biom: BiomType = BiomType.None) => {
-   props.selectFunc!({ biomType: biom, spotType: type } as Spot);
-};
+const selectSpot = (spot: Spot) => props.selectFunc!(spot);
 </script>
