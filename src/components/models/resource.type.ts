@@ -1,7 +1,12 @@
 export enum ResourceType {
-   Water = 0,
-   Wood = 1,
+   Water = 1,
    Stone = 2,
+   Leather = 3,
+   Iron = 4,
+   Planks = 5,
+   Wood1 = 10,
+   Wood2 = 11,
+   Wood3 = 12,
 
    Food = 99,
    Apple,
@@ -26,7 +31,8 @@ export enum ResourceType {
 
    Salt = 150,
 
-   Sword1 = 200,
+   Weapon = 199,
+   Sword1,
    Sword2,
    Sword3,
    Sword4,

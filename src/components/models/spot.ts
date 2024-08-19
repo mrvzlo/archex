@@ -1,4 +1,6 @@
 import { BiomType } from './biom.type';
+import Card from './card';
+import { ResourceType } from './resource.type';
 import { SpotType } from './spot.type';
 
 export default interface Spot {
@@ -7,4 +9,5 @@ export default interface Spot {
    biomType: BiomType;
    spotType: SpotType;
    mismatch?: boolean;
+   resourceType?: ResourceType;
 }

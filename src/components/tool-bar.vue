@@ -17,11 +17,14 @@ const hovered = reactive({ spot: null as any as Spot });
 
 const buildings: Spot[] = [
    { spotType: SpotType.Empty, biomType: BiomType.Grass },
-   { spotType: SpotType.Tower, biomType: BiomType.None },
-   { spotType: SpotType.Fort, biomType: BiomType.None },
-   { spotType: SpotType.Farm, biomType: BiomType.None },
-   { spotType: SpotType.City, biomType: BiomType.None },
-   { spotType: SpotType.Cave, biomType: BiomType.None },
+   { spotType: SpotType.Woodman, biomType: BiomType.Grass },
+   { spotType: SpotType.Tower, biomType: BiomType.Grass },
+   { spotType: SpotType.Fort, biomType: BiomType.Grass },
+   { spotType: SpotType.Farm, biomType: BiomType.Grass },
+   { spotType: SpotType.Village1, biomType: BiomType.Grass },
+   { spotType: SpotType.Cave, biomType: BiomType.Grass },
+   { spotType: SpotType.Well, biomType: BiomType.Grass },
+   { spotType: SpotType.Fishing, biomType: BiomType.Water },
 ];
 
 const rules: string[] = [];
@@ -29,7 +32,7 @@ rules[SpotType.Empty] = 'Озеленяет клетку';
 rules[SpotType.Tower] = 'Строится на поляне';
 rules[SpotType.Fort] = 'Строится на поляне';
 rules[SpotType.Farm] = 'Строится на поляне';
-rules[SpotType.City] = 'Строится на поляне';
+rules[SpotType.Village1] = 'Строится на поляне';
 rules[SpotType.Cave] = 'Выкапывается в горе';
 
 const costs: Cost[] = [];
