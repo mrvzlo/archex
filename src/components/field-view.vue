@@ -63,15 +63,15 @@ let selected = reactive({ spot: null as unknown as Spot | null });
 let preSelected: Spot;
 const bank = reactive([
    { resource: ResourceType.Food, count: 20 },
-   { resource: ResourceType.Water, count: 20 },
-   { resource: ResourceType.Wood1, count: 20 },
-   { resource: ResourceType.Stone, count: 20 },
-   { resource: ResourceType.Leather, count: 20 },
-   { resource: ResourceType.Iron, count: 20 },
-   { resource: ResourceType.Weapon, count: 20 },
-   { resource: ResourceType.Armor, count: 20 },
-   { resource: ResourceType.Books, count: 20 },
-   { resource: ResourceType.Gems, count: 20 },
+   { resource: ResourceType.Water, count: 5 },
+   { resource: ResourceType.Wood1, count: 0 },
+   { resource: ResourceType.Stone, count: 0 },
+   { resource: ResourceType.Leather, count: 0 },
+   { resource: ResourceType.Iron, count: 0 },
+   { resource: ResourceType.Weapon, count: 5 },
+   { resource: ResourceType.Armor, count: 0 },
+   { resource: ResourceType.Books, count: 0 },
+   { resource: ResourceType.Gems, count: 0 },
 ] as Cost[]);
 
 const placeSelected = (index: number) => {

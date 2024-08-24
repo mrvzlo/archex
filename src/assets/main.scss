@@ -20,8 +20,7 @@ body {
    --s: 110px;
    display: flex;
    flex-wrap: wrap;
-   width: calc(var(--s) * var(--count));
-   gap: 0px calc(var(--s) * 0.433);
+   width: calc((var(--s)) * var(--count));
 
    .spot {
       width: var(--s);
@@ -29,7 +28,7 @@ body {
       position: relative;
       clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
       transition: all 0.1s;
-      margin: calc(var(--s) * -0.148) calc(var(--s) * -0.2165);
+      margin: calc(var(--s) * -0.149) 0;
 
       &.disabled {
          pointer-events: none;
@@ -202,6 +201,7 @@ img {
 
       img {
          height: 48px;
+         width: 48px;
          background-color: #fff9;
          border: 2px solid black;
          border-radius: 50%;
@@ -215,7 +215,7 @@ img {
       }
 
       span {
-         margin: auto;
+         margin: auto 0;
          font-size: 32px;
          color: #efefef;
       }
