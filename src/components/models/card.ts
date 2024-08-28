@@ -4,7 +4,6 @@ import { SpotType } from './spot.type';
 
 export default interface Card {
    num: number;
-   name: string;
    resource: ResourceType;
    spot: SpotType;
    biom: BiomType;

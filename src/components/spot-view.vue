@@ -13,6 +13,8 @@ import { BiomType } from './models/biom.type';
 import Card from './models/card';
 import Spot from './models/spot';
 import { SpotType } from './models/spot.type';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const drawingManager = new DrawingManager();
 const props = defineProps({ spot: {} as Spot, showTooltip: false });
@@ -26,9 +28,9 @@ const showTooltip = (event: MouseEvent) => {
    tooltip.innerText = getTooltip()!;
    document.body.appendChild(tooltip);
    const rect = (event.target as HTMLElement).getBoundingClientRect();
-   tooltip.style.left = rect.x - 2 + 'px';
+   tooltip.style.left = rect.x + rect.width / 2 + 'px';
    tooltip.style.top = rect.y + 'px';
-   tooltip.style.width = rect.width + 'px';
+   tooltip.style.minWidth = rect.width + 'px';
    tooltipShown = true;
 };
 
@@ -44,6 +46,7 @@ const getCard = () => {
 };
 
 const getTooltip = () => {
+   if (props.spot.resourceType) return t('resources.' + props.spot.resourceType);
    if (props.spot.biomType === BiomType.Sand) return 'Пустырь';
    switch (props.spot.spotType) {
       case SpotType.Tower:

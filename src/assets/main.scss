@@ -35,8 +35,8 @@ body {
          opacity: 0;
       }
 
-      &.even {
-         transform: translateX(calc(50%));
+      &:not(.even) {
+         transform: translateX(calc(-50%));
       }
 
       > * {
@@ -55,8 +55,8 @@ img {
       transform: scale(1);
       z-index: 10;
 
-      &.even {
-         transform: scale(1) translateX(calc(50%));
+      &:not(.even) {
+         transform: translateX(calc(-50%));
       }
 
       ::after {
@@ -121,6 +121,7 @@ img {
 }
 
 .tooltip {
+   transform: translateX(-50%);
    position: fixed;
    text-align: center;
    font-weight: 600;
@@ -128,7 +129,7 @@ img {
    border: solid 1px white;
    border-radius: 2px;
    color: white;
-   padding-block: 5px;
+   padding: 5px;
    transition: all 0.4s;
    z-index: 100;
    pointer-events: none;
