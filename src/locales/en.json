@@ -1,5 +1,38 @@
 {
-   "spots": {},
+   "spots": {
+      "0": {
+         "1": "Badland",
+         "2": "Lawn",
+         "3": "Water"
+      },
+      "1": {
+         "1": "Badland",
+         "2": "Lawn",
+         "3": "Water"
+      },
+
+      "2": "Hills",
+      "3": "Rift",
+      "4": "Stones",
+      "5": {
+         "1": "Dead forest",
+         "2": "Forest"
+      },
+      "6": "Mountain",
+      "10": "Lake",
+      "20": "Tower",
+      "21": "Farm",
+      "22": "Mine",
+      "23": "Cabin",
+      "24": "Village",
+      "25": "Big village",
+      "26": "City",
+      "27": "Big city",
+      "28": "Boat",
+      "29": "Fort",
+      "30": "Well",
+      "31": "Well"
+   },
    "resources": {
       "1": "Well",
       "2": "Stone mine",
@@ -31,7 +64,7 @@
       "150": "Salt cave",
       "199": "Weapon",
       "200": "Training fort",
-      "201": "Training fort fffffffffffff",
+      "201": "Training fort",
       "202": "Training fort",
       "203": "Training fort",
       "204": "Training fort",

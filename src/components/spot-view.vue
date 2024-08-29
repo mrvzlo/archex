@@ -9,10 +9,8 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import DrawingManager from './managers/drawing.manager';
-import { BiomType } from './models/biom.type';
 import Card from './models/card';
 import Spot from './models/spot';
-import { SpotType } from './models/spot.type';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
@@ -34,7 +32,7 @@ const showTooltip = (event: MouseEvent) => {
    tooltipShown = true;
 };
 
-const hideTooltip = (event: MouseEvent) => {
+const hideTooltip = (_: MouseEvent) => {
    if (!tooltipShown) return;
    document.body.removeChild(tooltip);
    tooltipShown = false;
@@ -47,31 +45,8 @@ const getCard = () => {
 
 const getTooltip = () => {
    if (props.spot.resourceType) return t('resources.' + props.spot.resourceType);
-   if (props.spot.biomType === BiomType.Sand) return 'Пустырь';
-   switch (props.spot.spotType) {
-      case SpotType.Tower:
-         return 'Башня';
-      case SpotType.Cave:
-         return 'Шахта';
-      case SpotType.Empty:
-      case SpotType.Empty2:
-         return props.spot.biomType === BiomType.Grass ? 'Поляна' : props.spot.biomType === BiomType.Water ? 'Вода' : 'Пустырь';
-      case SpotType.Farm:
-         return 'Ферма';
-      case SpotType.Mountain:
-         return 'Гора';
-      case SpotType.Fort:
-         return 'Форт';
-      case SpotType.Woodman:
-         return 'Лесник';
-      case SpotType.Fishing:
-         return 'Рыбак';
-      case SpotType.Well:
-      case SpotType.Well2:
-         return 'Колодец';
-      case SpotType.Village1:
-      case SpotType.Village2:
-         return 'Деревня';
-   }
+   let name = 'spots.' + props.spot.spotType;
+   if (props.spot.spotType < 2 || props.spot.spotType === 5) name += '.' + props.spot.biomType;
+   return t(name);
 };
 </script>

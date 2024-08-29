@@ -1,6 +1,6 @@
 <template>
    <div class="resources-list">
-      <div v-for="resource of bank" v-key="resource">
+      <div v-for="resource of bank">
          <div v-if="resource.count > 0" class="row">
             <img :src="drawingManager.getSpotResourceImg(resource.resource)" :class="{ small: resource.resource < 99 }" />
             <span>{{ resource.count }}</span>
@@ -16,10 +16,9 @@
             even: spot.evenRow,
             mismatch: spot.mismatch,
          }"
-         v-for="(spot, j) in field.spots"
-         :key="j"
+         v-for="spot in field.spots"
          class="spot"
-         v-on:click="placeSelected(j)"
+         v-on:click="placeSelected(spot)"
       >
          <spot-view :spot="spot" :showTooltip="true" />
       </div>
@@ -74,9 +73,8 @@ const bank = reactive([
    { resource: ResourceType.Gems, count: 0 },
 ] as Cost[]);
 
-const placeSelected = (index: number) => {
+const placeSelected = (spot: Spot) => {
    if (!mode.hover) return;
-   const spot = field.spots[index];
    if (spot.mismatch) return;
    if (selected.spot!.spotType !== SpotType.Empty) spot.spotType = selected.spot!.spotType;
    if (selected.spot!.biomType !== BiomType.None) spot.biomType = selected.spot!.biomType;
