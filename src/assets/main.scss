@@ -222,3 +222,41 @@ img {
       }
    }
 }
+
+.locales {
+   z-index: 10;
+   position: fixed;
+   top: 0;
+   right: 0;
+   margin: 5px;
+   display: flex;
+   --back: #7f8576;
+   border: solid 2px black;
+
+   &:hover,
+   &:focus {
+      --back: #afdaf3af;
+   }
+
+   div {
+      font-size: 18px;
+      padding: 5px;
+      padding-right: 0;
+      background: var(--back);
+   }
+}
+
+select {
+   padding: 5px;
+   background: var(--back);
+   font-size: 18px;
+
+   &,
+   &:focus,
+   &:active {
+      border: none;
+   }
+   &:focus-visible {
+      outline: none;
+   }
+}
