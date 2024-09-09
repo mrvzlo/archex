@@ -1,9 +1,9 @@
 import { BiomType } from './biom.type';
-import Card from './card';
 import { ResourceType } from './resource.type';
 import { SpotType } from './spot.type';
 
 export default interface Spot {
+   num: number;
    available?: boolean;
    evenRow?: boolean;
    biomType: BiomType;

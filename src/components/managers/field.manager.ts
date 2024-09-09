@@ -18,43 +18,47 @@ export default class FieldManager {
          const col = i % field.width;
          const left = spot.evenRow ? -1 : 0;
          const right = field.width - 0;
+         spot.num = i;
          spot.available = col > left && col < right;
       });
    }
 
-   private getDistance(pos1: number, pos2: number, width: number) {
-      let x1 = pos1 % width;
-      const y1 = Math.floor(pos1 / width);
-      if (y1 % 2 == 1) x1 += 0.5;
-      let x2 = pos2 % width;
-      const y2 = Math.floor(pos2 / width);
-      if (y2 % 2 == 1) x2 += 0.5;
-      const dx = Math.abs(x1 - x2);
-      const dy = Math.abs(y1 - y2);
-
-      const horizontalSteps = dx * 2;
-      const verticalSteps = dy > horizontalSteps ? (dy - horizontalSteps) / 2 : (horizontalSteps + dy) % 2;
-
-      return verticalSteps + horizontalSteps;
-   }
-
    public setMatches(field: GameField, spot: Spot | null) {
-      field.spots.forEach((x) => (x.mismatch = !this.checkMatch(x, spot)));
+      field.spots.forEach((x) => {
+         x.mismatch = !!spot && (!this.checkMatch(x, spot) || !this.hasNeighboor(x.num, field));
+      });
    }
 
-   public checkMatch(oldSpot: Spot, newSpot: Spot | null) {
-      if (!newSpot) return true;
-      const isEmpty = oldSpot.spotType === SpotType.Empty;
-      const isRed = oldSpot.biomType === BiomType.Sand;
+   public checkMatch(oldSpot: Spot, newSpot: Spot) {
+      return this.checkMatchType(oldSpot.spotType, oldSpot.biomType, newSpot.spotType, newSpot.biomType);
+   }
 
-      if (newSpot.spotType === SpotType.Cave) return oldSpot.spotType === SpotType.Mountain;
-      if (newSpot.spotType === SpotType.Fort) return isEmpty && !isRed;
-      if (newSpot.spotType === SpotType.Tower) return isEmpty && !isRed;
-      if (newSpot.spotType === SpotType.Village1) return isEmpty && !isRed;
-      if (newSpot.spotType === SpotType.Farm) return isEmpty && !isRed;
-      if (newSpot.spotType === SpotType.Woodman) return isEmpty && oldSpot.biomType === BiomType.Grass;
-      if (newSpot.biomType === BiomType.Grass) return isRed;
+   private checkMatchType(oldSpot: SpotType, oldBiom: BiomType, newSpot: SpotType, newBiom: BiomType) {
+      const isEmpty = oldSpot <= SpotType.Hills;
+      const isGreen = oldBiom === BiomType.Grass;
 
-      return oldSpot.spotType !== SpotType.Mountain && oldSpot.spotType !== SpotType.Cave;
+      if (newSpot === SpotType.Cave) return oldSpot === SpotType.Mountain;
+      if (newSpot === SpotType.Fort) return isEmpty && isGreen;
+      if (newSpot === SpotType.Tower) return isEmpty && isGreen;
+      if (newSpot === SpotType.Village1) return isEmpty && isGreen;
+      if (newSpot === SpotType.Farm) return isEmpty && isGreen;
+      if (newSpot === SpotType.Woodman) return oldSpot === SpotType.Trees && isGreen;
+      if (newBiom === BiomType.Grass) return oldBiom === BiomType.Sand;
+      if (newSpot === SpotType.Fishing) return isEmpty && oldBiom === BiomType.Water;
+      return oldSpot !== SpotType.Mountain && oldSpot !== SpotType.Cave;
+   }
+
+   private hasNeighboor(pos: number, field: GameField) {
+      const width = field.width;
+      const neighboors = [-1, +1, -width, +width];
+      const odd = Math.floor(pos / width) % 2 !== 0;
+      if (odd) neighboors.push(-width + 1, width + 1);
+      else neighboors.push(-width - 1, width - 1);
+      const neighboorSpots = neighboors
+         .map((x) => x + pos)
+         .filter((x) => x >= 0 && x < field.height * field.width)
+         .map((x) => field.spots[x].spotType);
+      if (pos === 10) console.log(neighboorSpots);
+      return neighboorSpots.some((x) => x >= SpotType.Tower);
    }
 }
