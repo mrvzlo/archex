@@ -263,3 +263,9 @@ select {
    color: #aaa8;
    font-size: 32px;
 }
+
+.toolbar .hotkey {
+   transform: translate(5px, -100%);
+   opacity: 0.5;
+   font-weight: bold;
+}

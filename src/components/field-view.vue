@@ -25,7 +25,7 @@
       </div>
    </div>
    <div class="toolbar">
-      <tool-bar :selectFunc="selectFromToolBar" />
+      <tool-bar :selectFunc="selectFromToolBar" ref="toolbar" />
    </div>
    <div v-if="preselected.spot" class="cursor-img" :style="`top:${mousePosition.y}px;left:${mousePosition.x}px;`">
       <spot-view :spot="preselected.spot" />
@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import SpotView from './spot-view.vue';
 import ToolBar from './tool-bar.vue';
 import FieldManager from './managers/field.manager';
@@ -84,6 +84,7 @@ const mousePosition = reactive({ x: 0, y: 0 });
 let preselected = reactive({ spot: null as unknown as Spot | null });
 let lastPlaced: Spot;
 let toChoose = reactive({ cards: [] as Card[] });
+const toolbar = ref();
 
 const bank = reactive([
    { resource: ResourceType.Food, count: 20 },
@@ -110,10 +111,10 @@ const placeSelected = (spot: Spot) => {
 
 const setupCardsToChoose = () => {
    toChoose.cards = cardManager.findRandomCardsBySpot(lastPlaced.spotType, lastPlaced.biomType);
-   console.log(toChoose.cards);
 };
 
 const selectFromToolBar = (spot: Spot) => {
+   if (preselected.spot || toChoose.cards.length) return;
    preselected.spot = spot;
    mode.hover = true;
    manager.setMatches(field, spot);
@@ -132,6 +133,10 @@ window.onmousemove = (event: MouseEvent) => {
 
 window.onkeyup = (event: KeyboardEvent) => {
    if (event.code === 'Escape') deselect();
+   if (event.code.startsWith('Digit')) {
+      const key = Number(event.key);
+      selectFromToolBar(toolbar.value.buildings[key - 1]);
+   }
 };
 
 const deselect = () => {
