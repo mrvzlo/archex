@@ -3,8 +3,11 @@ $bg: darken($primary, 25%);
 $main: darken($primary, 10%);
 $highlight: lighten($primary, 5%);
 
+@import './card-select.scss';
+
 body {
    margin: 0;
+   font-family: Verdana;
 }
 
 #app {
@@ -150,16 +153,6 @@ img {
    color: white;
 }
 
-.card-select {
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-   background-color: #0006;
-   z-index: 100;
-}
-
 .resource {
    width: 32px;
    position: absolute;
@@ -180,6 +173,7 @@ img {
    transform: translate(-50%, 0%);
    pointer-events: none;
 
+   font-family: 'Courier New', Courier, monospace;
    width: 32px;
    height: 20px;
    background-color: #fff9;
@@ -259,4 +253,13 @@ select {
    &:focus-visible {
       outline: none;
    }
+}
+
+.top-info {
+   position: fixed;
+   left: 50%;
+   transform: translateX(-50%);
+   top: 15px;
+   color: #aaa8;
+   font-size: 32px;
 }

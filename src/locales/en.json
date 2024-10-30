@@ -89,5 +89,9 @@
       "501": "Ruby mine",
       "502": "Diamond mine",
       "503": "Emerald mine"
-   }
+   },
+   "produces": "Produces",
+   "forEach": "for each of these resources in range {x}",
+   "ifHas": "if has any of these resources in range {x}",
+   "escape": "Press escape to cancel"
 }

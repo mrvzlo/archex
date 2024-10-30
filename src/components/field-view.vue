@@ -1,4 +1,5 @@
 <template>
+   <div class="top-info" v-if="preselected.spot">{{ $t('escape') }}</div>
    <div class="resources-list">
       <div v-for="resource of bank">
          <div v-if="resource.count > 0" class="row">
@@ -26,12 +27,31 @@
    <div class="toolbar">
       <tool-bar :selectFunc="selectFromToolBar" />
    </div>
-   <div v-if="selected.spot" class="cursor-img" :style="`top:${mousePosition.y}px;left:${mousePosition.x}px;`">
-      <spot-view :spot="selected.spot" />
+   <div v-if="preselected.spot" class="cursor-img" :style="`top:${mousePosition.y}px;left:${mousePosition.x}px;`">
+      <spot-view :spot="preselected.spot" />
    </div>
 
-   <div class="card-select" v-if="preSelected">
-      <div class="backdrop"></div>
+   <div class="card-select" v-if="toChoose.cards.length > 0">
+      <div class="backdrop">
+         <div v-for="card of toChoose.cards" class="card" v-on:click="confirmCard(card)">
+            <div class="title">
+               <div>
+                  {{ $t('resources.' + card.resource) }}
+               </div>
+               <img :src="drawingManager.getSpotResourceImg(card.resource)" />
+            </div>
+            <div class="flex-text-row">
+               <span class="my-auto">{{ $t('produces') }}</span>
+               <img :src="drawingManager.getSpotResourceImg(card.converts ?? card.resource)" />
+               <span>x{{ card.power ?? 1 }}&nbsp;</span>
+               <span v-if="card.aoeRange">{{ card.aoePower! > 0 ? '+' : '' }}{{ card.aoePower }} {{ $t('forEach', { x: card.aoeRange }) }}:</span>
+               <div class="linked">
+                  <img v-for="linked of card.aoeResources" :src="drawingManager.getSpotResourceImg(linked)" />
+               </div>
+            </div>
+            <div class="big-num">{{ card.num }}</div>
+         </div>
+      </div>
    </div>
 </template>
 
@@ -46,11 +66,14 @@ import { SpotType } from './models/spot.type';
 import DrawingManager from './managers/drawing.manager';
 import Cost from './models/cost';
 import { ResourceType } from './models/resource.type';
+import CardManager from './managers/card.manager';
+import Card from './models/card';
 
 const width = 9;
 const height = 7;
 const manager = new FieldManager();
 const drawingManager = new DrawingManager();
+const cardManager = new CardManager();
 
 const folder = require.context('../assets/maps', false, /\.json$/)!;
 const spots = folder('./1.json');
@@ -58,8 +81,10 @@ const spots = folder('./1.json');
 const field = reactive(manager.createField(width, height, spots));
 const mode = reactive({ hover: false });
 const mousePosition = reactive({ x: 0, y: 0 });
-let selected = reactive({ spot: null as unknown as Spot | null });
-let preSelected: Spot;
+let preselected = reactive({ spot: null as unknown as Spot | null });
+let lastPlaced: Spot;
+let toChoose = reactive({ cards: [] as Card[] });
+
 const bank = reactive([
    { resource: ResourceType.Food, count: 20 },
    { resource: ResourceType.Water, count: 5 },
@@ -76,15 +101,28 @@ const bank = reactive([
 const placeSelected = (spot: Spot) => {
    if (!mode.hover) return;
    if (spot.mismatch) return;
-   if (selected.spot!.spotType !== SpotType.Empty) spot.spotType = selected.spot!.spotType;
-   if (selected.spot!.biomType !== BiomType.None) spot.biomType = selected.spot!.biomType;
+   if (preselected.spot!.spotType !== SpotType.Empty) spot.spotType = preselected.spot!.spotType;
+   if (preselected.spot!.biomType !== BiomType.None) spot.biomType = preselected.spot!.biomType;
+   lastPlaced = spot;
+   setupCardsToChoose();
    deselect();
 };
 
+const setupCardsToChoose = () => {
+   toChoose.cards = cardManager.findRandomCardsBySpot(lastPlaced.spotType, lastPlaced.biomType);
+   console.log(toChoose.cards);
+};
+
 const selectFromToolBar = (spot: Spot) => {
-   selected.spot = spot;
+   preselected.spot = spot;
    mode.hover = true;
    manager.setMatches(field, spot);
+};
+
+const confirmCard = (card: Card) => {
+   lastPlaced!.num = card.num;
+   lastPlaced!.resourceType = card.resource;
+   toChoose.cards = [];
 };
 
 window.onmousemove = (event: MouseEvent) => {
@@ -98,7 +136,7 @@ window.onkeyup = (event: KeyboardEvent) => {
 
 const deselect = () => {
    mode.hover = false;
-   selected.spot = null;
+   preselected.spot = null;
    manager.setMatches(field, null);
 };
 </script>

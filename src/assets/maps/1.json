@@ -11,7 +11,7 @@
 
    { "biomType": 2, "spotType": 6 },
    { "biomType": 1, "spotType": 0 },
-   { "biomType": 2, "spotType": 6, "resourceType": 2 },
+   { "biomType": 2, "spotType": 22, "resourceType": 2 },
    { "biomType": 1, "spotType": 0 },
    { "biomType": 3, "spotType": 0 },
    { "biomType": 1, "spotType": 2 },

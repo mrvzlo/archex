@@ -5,10 +5,11 @@ import { SpotType } from './spot.type';
 export default interface Card {
    num: number;
    resource: ResourceType;
-   spot: SpotType;
-   biom: BiomType;
+   spotType: SpotType;
+   biomType: BiomType;
    power?: number;
    converts?: number;
+
    aoePower?: number;
    aoeRange?: number;
    aoeResources?: ResourceType[];
