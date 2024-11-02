@@ -42,6 +42,7 @@ export default class FieldManager {
       if (newSpot === SpotType.Tower) return isEmpty && isGreen;
       if (newSpot === SpotType.Village1) return isEmpty && isGreen;
       if (newSpot === SpotType.Farm) return isEmpty && isGreen;
+      if (newSpot === SpotType.Well) return isEmpty && isGreen;
       if (newSpot === SpotType.Woodman) return oldSpot === SpotType.Trees && isGreen;
       if (newBiom === BiomType.Grass) return oldBiom === BiomType.Sand;
       if (newSpot === SpotType.Fishing) return isEmpty && oldBiom === BiomType.Water;

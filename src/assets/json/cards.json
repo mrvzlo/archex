@@ -24,7 +24,7 @@
       "spotType": 21,
       "biomType": 2,
       "power": 4,
-      "aoeResources": 102,
+      "aoeResources": [102],
       "aoeRange": 1,
       "aoePower": 1,
       "converts": 99
@@ -38,7 +38,7 @@
       "spotType": 21,
       "biomType": 2,
       "power": 4,
-      "aoeResources": 105,
+      "aoeResources": [105],
       "aoeRange": 2,
       "aoePower": 2,
       "converts": 99
@@ -50,7 +50,7 @@
       "spotType": 21,
       "biomType": 2,
       "power": 6,
-      "aoeResources": 107,
+      "aoeResources": [107],
       "aoeRange": 2,
       "aoePower": 1,
       "converts": 99

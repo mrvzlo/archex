@@ -4,6 +4,7 @@ $main: darken($primary, 10%);
 $highlight: lighten($primary, 5%);
 
 @import './card-select.scss';
+@import './dice.scss';
 
 body {
    margin: 0;
@@ -107,6 +108,11 @@ img {
             filter: invert(1);
          }
       }
+   }
+
+   &.disabled {
+      pointer-events: none;
+      filter: contrast(0.7) opacity(0.7);
    }
 }
 
@@ -255,11 +261,7 @@ select {
    }
 }
 
-.top-info {
-   position: fixed;
-   left: 50%;
-   transform: translateX(-50%);
-   top: 15px;
+.help-text {
    color: #aaa8;
    font-size: 32px;
 }
