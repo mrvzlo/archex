@@ -1,20 +1,27 @@
 <template>
    <div class="top-info">
-      <div class="help-text" v-if="state.current === RoundState.Placement">{{ $t('escape') }}</div>
-      <div class="dice" v-if="state.current !== RoundState.Placement">
-         <button v-on:click="startRoll()" v-if="state.current === RoundState.BeforeRoll">Roll</button>
-         <div v-if="state.current === RoundState.DicePick" class="label" :class="{ hidden: dice.selectedCount < 2 }">
+      <div class="help-text" v-if="gameState.roundState === RoundState.Placement">{{ $t('escape') }}</div>
+      <div class="help-text" v-if="gameState.roundState === RoundState.BeforeStart">{{ $t('enter') }}</div>
+      <div class="dice" v-if="gameState.roundState !== RoundState.Placement">
+         <div v-if="gameState.roundState === RoundState.DicePick" class="label" :class="{ hidden: dice.animating }">
             {{ dice.sum }}
          </div>
          <die
-            v-if="state.current === RoundState.DicePick"
+            v-if="gameState.roundState === RoundState.DicePick"
             v-for="(die, i) of dice.values"
             :value="die"
             :animating="dice.animating"
             v-on:click="selectDie(i)"
             :class="{ selected: dice.selected[i] }"
          />
-         <button v-if="state.current === RoundState.DicePick" v-on:click="gain()" :class="{ hidden: dice.selectedCount < 2 }">OK</button>
+         <button
+            v-if="gameState.roundState === RoundState.DicePick"
+            v-on:click="gain()"
+            :class="{ hidden: dice.animating }"
+            :disabled="dice.selectedCount < 2"
+         >
+            OK
+         </button>
       </div>
    </div>
    <div class="resources-list">
@@ -25,7 +32,7 @@
          </div>
       </div>
    </div>
-   <div class="grid map" :style="'--count:' + width" :class="{ hoverable: state.current === RoundState.Placement }">
+   <div class="grid map" :style="'--count:' + width" :class="{ hoverable: gameState.roundState === RoundState.Placement }">
       <div
          :class="{
             empty: spot.spotType === SpotType.Empty,
@@ -41,14 +48,16 @@
          <spot-view :spot="spot" :showTooltip="true" />
       </div>
    </div>
-   <div class="toolbar" :class="{ disabled: state.current !== RoundState.Buying }">
+
+   <round-clock :nextRound="startRoll" :state="gameState" :animating="dice.animating" />
+   <div class="toolbar" :class="{ disabled: gameState.roundState !== RoundState.Buying }">
       <tool-bar :selectFunc="selectFromToolBar" ref="toolbar" />
    </div>
    <div v-if="preselected.spot" class="cursor-img" :style="`top:${mousePosition.y}px;left:${mousePosition.x}px;`">
       <spot-view :spot="preselected.spot" />
    </div>
 
-   <div class="card-select" v-if="state.current === RoundState.CardChoose">
+   <div class="card-select" v-if="gameState.roundState === RoundState.CardChoose">
       <div class="backdrop">
          <div v-for="card of toChoose.cards" class="card" v-on:click="confirmCard(card)">
             <div class="title">
@@ -75,10 +84,11 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import SpotView from './spot-view.vue';
+import RoundClock from './round-clock.vue';
 import Die from './die.vue';
 import ToolBar from './tool-bar.vue';
 import FieldManager from './managers/field.manager';
-import Spot from './models/spot';
+import FieldSpot from './models/field-spot';
 import { BiomType } from './models/biom.type';
 import { SpotType } from './models/spot.type';
 import DrawingManager from './managers/drawing.manager';
@@ -87,6 +97,7 @@ import { ResourceType } from './models/resource.type';
 import CardManager from './managers/card.manager';
 import Card from './models/card';
 import { RoundState } from './models/round-state';
+import GameState from './models/game-state';
 
 const width = 9;
 const height = 7;
@@ -98,10 +109,10 @@ const folder = require.context('../assets/maps', false, /\.json$/)!;
 const spots = folder('./1.json');
 
 const field = reactive(manager.createField(width, height, spots));
-const state = reactive({ current: RoundState.BeforeRoll });
+const gameState = reactive(new GameState());
 const mousePosition = reactive({ x: 0, y: 0 });
-let preselected = reactive({ spot: null as unknown as Spot | null });
-let lastPlaced: Spot;
+let preselected = reactive({ spot: null as unknown as FieldSpot | null });
+let lastPlaced: FieldSpot;
 let toChoose = reactive({ cards: [] as Card[] });
 const toolbar = ref();
 const dice = reactive({ values: [1, 1, 1, 1], selected: [] as boolean[], animating: false, sum: 0, selectedCount: 0 });
@@ -119,8 +130,8 @@ const bank = reactive([
    { resource: ResourceType.Gems, count: 0 },
 ] as Cost[]);
 
-const placeSelected = (spot: Spot) => {
-   if (state.current !== RoundState.Placement) return;
+const placeSelected = (spot: FieldSpot) => {
+   if (gameState.roundState !== RoundState.Placement) return;
    if (spot.mismatch) return;
    if (preselected.spot?.spotType === SpotType.Rift) manager.destroy(spot);
    else {
@@ -135,21 +146,21 @@ const placeSelected = (spot: Spot) => {
 
 const setupCardsToChoose = () => {
    toChoose.cards = cardManager.findRandomCardsBySpot(lastPlaced.spotType, lastPlaced.biomType);
-   state.current = RoundState.CardChoose;
-   if (!toChoose.cards.length) state.current = RoundState.Buying;
+   gameState.roundState = RoundState.CardChoose;
+   if (!toChoose.cards.length) gameState.roundState = RoundState.Buying;
 };
 
-const selectFromToolBar = (spot: Spot) => {
-   if (state.current !== RoundState.Buying) return;
+const selectFromToolBar = (spot: FieldSpot) => {
+   if (gameState.roundState !== RoundState.Buying) return;
    preselected.spot = spot;
-   state.current = RoundState.Placement;
+   gameState.roundState = RoundState.Placement;
    manager.setMatches(field, spot);
 };
 
 const confirmCard = (card: Card) => {
    lastPlaced!.resourceType = card.resource;
    toChoose.cards = [];
-   state.current = RoundState.Buying;
+   gameState.roundState = RoundState.Buying;
 };
 
 window.onmousemove = (event: MouseEvent) => {
@@ -159,6 +170,7 @@ window.onmousemove = (event: MouseEvent) => {
 
 window.onkeyup = (event: KeyboardEvent) => {
    if (event.code === 'Escape') deselect();
+   if (event.code === 'Enter') startRoll();
    if (event.code.startsWith('Digit')) {
       const key = (Number(event.key) + 9) % 10;
       selectFromToolBar(toolbar.value.buildings[key]);
@@ -166,15 +178,16 @@ window.onkeyup = (event: KeyboardEvent) => {
 };
 
 const deselect = () => {
-   state.current = RoundState.Buying;
+   gameState.roundState = RoundState.Buying;
    preselected.spot = null;
    manager.setMatches(field, null);
 };
 
 const startRoll = () => {
+   if (gameState.roundState !== RoundState.Buying && gameState.roundState !== RoundState.BeforeStart) return;
    dice.animating = true;
    for (let i = 0; i < 4; i++) dice.selected[i] = false;
-   state.current = RoundState.DicePick;
+   gameState.nextRound();
    dice.selectedCount = 0;
    dice.sum = 0;
 
@@ -194,6 +207,6 @@ const selectDie = (num: number) => {
 };
 
 const gain = () => {
-   state.current = RoundState.Buying;
+   gameState.roundState = RoundState.Buying;
 };
 </script>

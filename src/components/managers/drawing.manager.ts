@@ -1,6 +1,6 @@
 import { BiomType } from '../models/biom.type';
 import { ResourceType } from '../models/resource.type';
-import Spot from '../models/spot';
+import FieldSpot from '../models/field-spot';
 
 export default class DrawingManager {
    public getSpotResourceImg(resource: ResourceType) {
@@ -9,7 +9,7 @@ export default class DrawingManager {
       return folder(`./${resource}.png`);
    }
 
-   public getSpotImg(spot: Spot) {
+   public getSpotImg(spot: FieldSpot) {
       const folder = this.getSpotFolder(spot.biomType);
       if (!folder) return '';
       return folder(`./${spot.spotType}.png`);

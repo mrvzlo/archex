@@ -1,5 +1,5 @@
 export enum RoundState {
-   BeforeRoll,
+   BeforeStart,
    DicePick,
    Buying,
    Placement,

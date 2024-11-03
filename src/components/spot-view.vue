@@ -10,14 +10,14 @@
 import { defineProps } from 'vue';
 import DrawingManager from './managers/drawing.manager';
 import Card from './models/card';
-import Spot from './models/spot';
+import FieldSpot from './models/field-spot';
 import { useI18n } from 'vue-i18n';
 import CardManager from './managers/card.manager';
 const { t } = useI18n();
 
 const drawingManager = new DrawingManager();
 const cardManager = new CardManager();
-const props = defineProps({ spot: {} as Spot, showTooltip: false });
+const props = defineProps({ spot: {} as FieldSpot, showTooltip: false } as any);
 let tooltipShown = false;
 let tooltip: HTMLDivElement;
 
@@ -41,7 +41,7 @@ const hideTooltip = (_: MouseEvent) => {
 };
 
 const getCard = () => {
-   return cardManager.findCardByResource(props.spot.resourceType);
+   return cardManager.findCardByResource(props.spot.resourceType)!;
 };
 
 const getTooltip = () => {

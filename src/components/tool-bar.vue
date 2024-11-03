@@ -11,11 +11,12 @@ import { defineExpose } from 'vue';
 import SpotView from './spot-view.vue';
 import { BiomType } from './models/biom.type';
 import { SpotType } from './models/spot.type';
-import Spot from './models/spot';
+import FieldSpot from './models/field-spot';
 import { defineProps, reactive } from 'vue';
 import Cost from './models/cost';
+import Spot from './models/spot';
 
-const hovered = reactive({ spot: null as any as Spot });
+const hovered = reactive({ spot: null as any as Spot | null });
 
 const buildings: Spot[] = [
    { spotType: SpotType.Fishing, biomType: BiomType.Water },

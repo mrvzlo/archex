@@ -94,5 +94,6 @@
    "produces": "Produces",
    "forEach": "for each of these resources in range {x}",
    "ifHas": "if has any of these resources in range {x}",
-   "escape": "Press escape to cancel"
+   "escape": "Press escape to cancel",
+   "enter": "Press enter to start new round"
 }

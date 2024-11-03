@@ -14,5 +14,5 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-const props = defineProps({ animating: true, value: 6 });
+const props = defineProps({ animating: true, value: 6 } as any);
 </script>

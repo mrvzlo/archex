@@ -1,7 +1,7 @@
-import Spot from './spot';
+import FieldSpot from './field-spot';
 
 export default interface GameField {
-   spots: Spot[];
+   spots: FieldSpot[];
    width: number;
    height: number;
 }

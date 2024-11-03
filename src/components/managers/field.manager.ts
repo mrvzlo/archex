@@ -1,10 +1,10 @@
 import { BiomType } from '../models/biom.type';
 import GameField from '../models/game-field';
-import Spot from '../models/spot';
+import FieldSpot from '../models/field-spot';
 import { SpotType } from '../models/spot.type';
 
 export default class FieldManager {
-   public createField(width: number, height: number, spots: Spot[]) {
+   public createField(width: number, height: number, spots: FieldSpot[]) {
       const field = { spots, width, height } as GameField;
       this.formatField(field);
       this.setMatches(field, null);
@@ -23,13 +23,13 @@ export default class FieldManager {
       });
    }
 
-   public setMatches(field: GameField, spot: Spot | null) {
+   public setMatches(field: GameField, spot: FieldSpot | null) {
       field.spots.forEach((x) => {
-         x.mismatch = !!spot && (!this.checkMatch(x, spot) || !this.hasNeighboor(x.id, field));
+         x.mismatch = !!spot && (!this.checkMatch(x, spot) || !this.hasNeighboor(x.id, field, true));
       });
    }
 
-   public checkMatch(oldSpot: Spot, newSpot: Spot) {
+   public checkMatch(oldSpot: FieldSpot, newSpot: FieldSpot) {
       return this.checkMatchType(oldSpot.spotType, oldSpot.biomType, newSpot.spotType, newSpot.biomType);
    }
 
@@ -50,9 +50,10 @@ export default class FieldManager {
       return oldSpot !== SpotType.Mountain && oldSpot !== SpotType.Cave;
    }
 
-   private hasNeighboor(pos: number, field: GameField) {
+   private hasNeighboor(pos: number, field: GameField, inclideItself = false) {
       const width = field.width;
-      const neighboors = [0, -1, +1, -width, +width];
+      const neighboors = [-1, +1, -width, +width];
+      if (inclideItself) neighboors.push(0);
       const odd = Math.floor(pos / width) % 2 !== 0;
       if (odd) neighboors.push(-width + 1, width + 1);
       else neighboors.push(-width - 1, width - 1);
@@ -60,11 +61,11 @@ export default class FieldManager {
          .map((x) => x + pos)
          .filter((x) => x >= 0 && x < field.height * field.width)
          .map((x) => field.spots[x].spotType);
-      if (pos === 10) console.log(neighboorSpots);
+
       return neighboorSpots.some((x) => x >= SpotType.Tower);
    }
 
-   public destroy(spot: Spot) {
+   public destroy(spot: FieldSpot) {
       spot.resourceType = undefined;
       if (spot.spotType === SpotType.Cave) spot.spotType = SpotType.Mountain;
       else if (spot.spotType === SpotType.Woodman) spot.spotType = SpotType.Trees;

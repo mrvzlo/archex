@@ -5,6 +5,9 @@ $highlight: lighten($primary, 5%);
 
 @import './card-select.scss';
 @import './dice.scss';
+@import './clock.scss';
+@import './field.scss';
+@import './locales.scss';
 
 body {
    margin: 0;
@@ -18,65 +21,14 @@ body {
    background: $bg;
 }
 
-.grid {
-   margin: auto;
-   --count: 10;
-   --s: 110px;
-   display: flex;
-   flex-wrap: wrap;
-   width: calc((var(--s)) * var(--count));
-
-   .spot {
-      width: var(--s);
-      height: calc(var(--s) / 0.866);
-      position: relative;
-      clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-      transition: all 0.1s;
-      margin: calc(var(--s) * -0.149) 0;
-
-      &.disabled {
-         pointer-events: none;
-         opacity: 0;
-      }
-
-      &:not(.even) {
-         transform: translateX(calc(-50%));
-      }
-
-      > * {
-         margin: auto;
-      }
-   }
+.disabled {
+   pointer-events: none;
+   filter: contrast(0.7) opacity(0.7);
 }
 
 img {
    width: 100%;
    height: auto;
-}
-
-.map.hoverable {
-   .spot:not(.mismatch):hover {
-      transform: scale(1);
-      z-index: 10;
-
-      &:not(.even) {
-         transform: translateX(calc(-50%));
-      }
-
-      ::after {
-         background-color: #0004;
-         content: '';
-         position: absolute;
-         left: 0;
-         top: 0;
-         bottom: 0;
-         right: 0;
-      }
-   }
-}
-
-.invert {
-   filter: invert(0.8);
 }
 
 .toolbar {
@@ -108,11 +60,6 @@ img {
             filter: invert(1);
          }
       }
-   }
-
-   &.disabled {
-      pointer-events: none;
-      filter: contrast(0.7) opacity(0.7);
    }
 }
 
@@ -220,44 +167,6 @@ img {
          font-size: 32px;
          color: #efefef;
       }
-   }
-}
-
-.locales {
-   z-index: 10;
-   position: fixed;
-   top: 0;
-   right: 0;
-   margin: 5px;
-   display: flex;
-   --back: #7f8576;
-   border: solid 2px black;
-
-   &:hover,
-   &:focus {
-      --back: #afdaf3af;
-   }
-
-   div {
-      font-size: 18px;
-      padding: 5px;
-      padding-right: 0;
-      background: var(--back);
-   }
-}
-
-select {
-   padding: 5px;
-   background: var(--back);
-   font-size: 18px;
-
-   &,
-   &:focus,
-   &:active {
-      border: none;
-   }
-   &:focus-visible {
-      outline: none;
    }
 }
 

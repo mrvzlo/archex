@@ -1,0 +1,50 @@
+.grid {
+   margin: auto;
+   --count: 10;
+   --s: 110px;
+   display: flex;
+   flex-wrap: wrap;
+   width: calc((var(--s)) * var(--count));
+
+   .spot {
+      width: var(--s);
+      height: calc(var(--s) / 0.866);
+      position: relative;
+      clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+      transition: all 0.1s;
+      margin: calc(var(--s) * -0.149) 0;
+
+      &.disabled {
+         opacity: 0;
+      }
+
+      &:not(.even) {
+         transform: translateX(calc(-50%));
+      }
+
+      > * {
+         margin: auto;
+      }
+   }
+}
+
+.map.hoverable {
+   .spot:not(.mismatch):hover {
+      transform: scale(1);
+      z-index: 10;
+
+      &:not(.even) {
+         transform: translateX(calc(-50%));
+      }
+
+      ::after {
+         background-color: #0004;
+         content: '';
+         position: absolute;
+         left: 0;
+         top: 0;
+         bottom: 0;
+         right: 0;
+      }
+   }
+}
