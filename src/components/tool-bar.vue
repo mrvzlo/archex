@@ -1,7 +1,7 @@
 <template>
    <div v-for="(spot, i) of buildings" v-on:click="selectSpot(spot)" @mouseenter="hovered.spot = spot" @mouseleave="hovered.spot = null">
       <spot-view :spot="spot" :showTooltip="true" />
-      <div class="hotkey">{{ i + 1 }}</div>
+      <div class="hotkey">{{ (i + 1) % 10 }}</div>
    </div>
    <div class="position-absolute rule" v-if="hovered.spot">{{ rules[hovered.spot.spotType] }}</div>
 </template>
@@ -27,6 +27,7 @@ const buildings: Spot[] = [
    { spotType: SpotType.Fort, biomType: BiomType.Grass },
    { spotType: SpotType.Village1, biomType: BiomType.Grass },
    { spotType: SpotType.Tower, biomType: BiomType.Grass },
+   { spotType: SpotType.Rift, biomType: BiomType.Grass },
 ];
 
 defineExpose({ buildings });
@@ -43,5 +44,5 @@ const costs: Cost[] = [];
 
 const props = defineProps({ selectFunc: Function });
 
-const selectSpot = (spot: Spot) => props.selectFunc!(spot);
+const selectSpot = (spot: Spot | null) => props.selectFunc!(spot);
 </script>

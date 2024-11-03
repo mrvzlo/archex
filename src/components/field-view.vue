@@ -122,9 +122,13 @@ const bank = reactive([
 const placeSelected = (spot: Spot) => {
    if (state.current !== RoundState.Placement) return;
    if (spot.mismatch) return;
-   if (preselected.spot!.spotType !== SpotType.Empty) spot.spotType = preselected.spot!.spotType;
-   if (preselected.spot!.biomType !== BiomType.None) spot.biomType = preselected.spot!.biomType;
+   if (preselected.spot?.spotType === SpotType.Rift) manager.destroy(spot);
+   else {
+      if (preselected.spot!.spotType !== SpotType.Empty) spot.spotType = preselected.spot!.spotType;
+      if (preselected.spot!.biomType !== BiomType.None) spot.biomType = preselected.spot!.biomType;
+   }
    lastPlaced = spot;
+
    deselect();
    setupCardsToChoose();
 };
@@ -132,6 +136,7 @@ const placeSelected = (spot: Spot) => {
 const setupCardsToChoose = () => {
    toChoose.cards = cardManager.findRandomCardsBySpot(lastPlaced.spotType, lastPlaced.biomType);
    state.current = RoundState.CardChoose;
+   if (!toChoose.cards.length) state.current = RoundState.Buying;
 };
 
 const selectFromToolBar = (spot: Spot) => {
@@ -142,7 +147,6 @@ const selectFromToolBar = (spot: Spot) => {
 };
 
 const confirmCard = (card: Card) => {
-   lastPlaced!.num = card.num;
    lastPlaced!.resourceType = card.resource;
    toChoose.cards = [];
    state.current = RoundState.Buying;
@@ -156,8 +160,8 @@ window.onmousemove = (event: MouseEvent) => {
 window.onkeyup = (event: KeyboardEvent) => {
    if (event.code === 'Escape') deselect();
    if (event.code.startsWith('Digit')) {
-      const key = Number(event.key);
-      selectFromToolBar(toolbar.value.buildings[key - 1]);
+      const key = (Number(event.key) + 9) % 10;
+      selectFromToolBar(toolbar.value.buildings[key]);
    }
 };
 

@@ -2,10 +2,12 @@ export enum SpotType {
    Empty,
    Empty2,
    Hills,
-   Hole,
+   Ruins,
    Stones,
    Trees,
    Mountain,
+   Hole,
+   Rift,
 
    Lake = 10,
 

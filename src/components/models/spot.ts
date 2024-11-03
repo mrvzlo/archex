@@ -3,7 +3,7 @@ import { ResourceType } from './resource.type';
 import { SpotType } from './spot.type';
 
 export default interface Spot {
-   num: number;
+   id: number;
    available?: boolean;
    evenRow?: boolean;
    biomType: BiomType;
