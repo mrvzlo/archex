@@ -72,7 +72,7 @@
                <span>x{{ card.power ?? 1 }}&nbsp;</span>
                <div v-for="aoe in card.aoe">
                   <span v-if="aoe.range">{{ aoe.power! > 0 ? '+' : '' }}{{ aoe.power }} {{ $t('forEach', { x: aoe.range }) }}</span>
-                  <img :src="drawingManager.getSpotResourceImg(aoe.resources!)" />
+                  <img :src="drawingManager.getSpotResourceImg(aoe.resource!)" />
                </div>
             </div>
             <div class="big-num">{{ card.num }}</div>
@@ -98,12 +98,14 @@ import CardManager from './managers/card.manager';
 import Card from './models/card';
 import { RoundState } from './models/round-state';
 import GameState from './models/game-state';
+import ProductionManager from './managers/production.manager';
 
 const width = 9;
 const height = 7;
 const manager = new FieldManager();
 const drawingManager = new DrawingManager();
 const cardManager = new CardManager();
+const productionManager = new ProductionManager(cardManager);
 
 const folder = require.context('../assets/maps', false, /\.json$/)!;
 const spots = folder('./1.json');
@@ -117,18 +119,7 @@ let toChoose = reactive({ cards: [] as Card[] });
 const toolbar = ref();
 const dice = reactive({ values: [1, 1, 1, 1], selected: [] as boolean[], animating: false, sum: 0, selectedCount: 0 });
 
-const bank = reactive([
-   { resource: ResourceType.Food, count: 20 },
-   { resource: ResourceType.Water, count: 5 },
-   { resource: ResourceType.Wood1, count: 0 },
-   { resource: ResourceType.Stone, count: 0 },
-   { resource: ResourceType.Leather, count: 0 },
-   { resource: ResourceType.Iron, count: 0 },
-   { resource: ResourceType.Weapon, count: 5 },
-   { resource: ResourceType.Armor, count: 0 },
-   { resource: ResourceType.Books, count: 0 },
-   { resource: ResourceType.Gems, count: 0 },
-] as Cost[]);
+const bank = reactive(productionManager.getStartBank());
 
 const placeSelected = (spot: FieldSpot) => {
    if (gameState.roundState !== RoundState.Placement) return;
@@ -207,6 +198,7 @@ const selectDie = (num: number) => {
 };
 
 const gain = () => {
+   productionManager.produce(bank, field, dice.sum);
    gameState.roundState = RoundState.Buying;
 };
 </script>

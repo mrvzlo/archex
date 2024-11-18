@@ -2,6 +2,7 @@ import { BiomType } from '../models/biom.type';
 import GameField from '../models/game-field';
 import FieldSpot from '../models/field-spot';
 import { SpotType } from '../models/spot.type';
+import Cost from '../models/cost';
 
 export default class FieldManager {
    public createField(width: number, height: number, spots: FieldSpot[]) {
@@ -51,17 +52,7 @@ export default class FieldManager {
    }
 
    private hasNeighboor(pos: number, field: GameField, inclideItself = false) {
-      const width = field.width;
-      const neighboors = [-1, +1, -width, +width];
-      if (inclideItself) neighboors.push(0);
-      const odd = Math.floor(pos / width) % 2 !== 0;
-      if (odd) neighboors.push(-width + 1, width + 1);
-      else neighboors.push(-width - 1, width - 1);
-      const neighboorSpots = neighboors
-         .map((x) => x + pos)
-         .filter((x) => x >= 0 && x < field.height * field.width)
-         .map((x) => field.spots[x].spotType);
-
+      const neighboorSpots = this.getNeighborsSpots(pos, field, inclideItself).map((x) => x.spotType);
       return neighboorSpots.some((x) => x >= SpotType.Tower);
    }
 
@@ -70,6 +61,35 @@ export default class FieldManager {
       if (spot.spotType === SpotType.Cave) spot.spotType = SpotType.Mountain;
       else if (spot.spotType === SpotType.Woodman) spot.spotType = SpotType.Trees;
       else spot.spotType = SpotType.Empty;
-      console.log(spot.id);
    }
+
+   private getNeighborsSpots(pos: number, field: GameField, inclideItself = false) {
+      const neighboors = getNeighborsInRange(1, pos, field.width, field.height);
+      if (inclideItself) neighboors.push(0);
+      return neighboors.map((x) => field.spots[x]);
+   }
+}
+
+export function getNeighborsInRange(range: number, pos: number, width: number, height: number) {
+   const result: boolean[] = [];
+   let lastToProcess = [pos];
+
+   for (let i = 0; i < range; i++) {
+      const newFound = [];
+
+      while (lastToProcess.length > 0) {
+         const current = lastToProcess.pop()!;
+         const neighboors = [-1, +1, -width, +width];
+         const odd = Math.floor(current / width) % 2 !== 0;
+         if (odd) neighboors.push(-width + 1, width + 1);
+         else neighboors.push(-width - 1, width - 1);
+         const filtered = neighboors.map((x) => x + current).filter((x) => !result[x] && x >= 0 && x < height * width);
+         newFound.push(...filtered);
+      }
+
+      lastToProcess = newFound;
+      newFound.forEach((x) => (result[x] = true));
+   }
+
+   return Object.keys(result).map((x) => +x);
 }

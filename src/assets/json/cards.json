@@ -6,7 +6,7 @@
       "biomType": 2,
       "power": 5,
       "converts": 1,
-      "aoe": [{ "power": -1, "range": 1, "resources": 1 }],
+      "aoe": [{ "power": -1, "range": 1, "resource": 1 }],
       "passive": -1
    },
    { "resource": 2, "num": 9, "spotType": 22, "biomType": 2, "power": 1, "converts": 2, "passive": -1 },
@@ -20,7 +20,7 @@
       "biomType": 2,
       "power": 3,
       "converts": 99,
-      "aoe": [{ "power": 2, "resources": "102", "range": 1 }],
+      "aoe": [{ "power": 2, "resource": "102", "range": 1 }],
       "passive": -1
    },
    {
@@ -29,11 +29,8 @@
       "spotType": 21,
       "biomType": 2,
       "power": 5,
-      "aoeResources": [102],
-      "aoeRange": 1,
-      "aoePower": 1,
       "converts": 99,
-      "aoe": [{ "resources": "100", "power": 1, "range": 2 }],
+      "aoe": [{ "resource": "100", "power": 1, "range": 2 }],
       "passive": -1
    },
    {
@@ -42,11 +39,8 @@
       "spotType": 21,
       "biomType": 2,
       "power": 4,
-      "aoeResources": [105],
-      "aoeRange": 2,
-      "aoePower": 2,
       "converts": 99,
-      "aoe": [{ "resources": "105", "power": 1, "range": 1 }],
+      "aoe": [{ "resource": "105", "power": 1, "range": 1 }],
       "passive": -1
    },
    {
@@ -56,7 +50,7 @@
       "biomType": 3,
       "power": 10,
       "converts": 99,
-      "aoe": [{ "power": -1, "range": 1, "resources": 114 }],
+      "aoe": [{ "power": -1, "range": 1, "resource": 114 }],
       "passive": -1
    },
    {
@@ -95,14 +89,11 @@
       "spotType": 21,
       "biomType": 2,
       "power": 0,
-      "aoeResources": [200, 201, 202, 203, 204, 205, 206],
-      "aoeRange": 2,
-      "aoePower": 1,
       "converts": 199,
       "aoe": [
-         { "resources": 200, "range": 2, "power": 2 },
-         { "resources": 205, "range": 2, "power": 2 },
-         { "resources": 206, "range": 2, "power": 2 }
+         { "resource": 200, "range": 2, "power": 2 },
+         { "resource": 205, "range": 2, "power": 2 },
+         { "resource": 206, "range": 2, "power": 2 }
       ],
       "passive": -1
    },
@@ -113,7 +104,6 @@
       "biomType": 2,
       "power": 7,
       "converts": 299,
-      "usedResource": 3,
       "uses": 5,
       "consumes": [{ "resource": 3, "count": 6 }],
       "passive": 2
@@ -125,7 +115,6 @@
       "biomType": 2,
       "power": 13,
       "converts": 299,
-      "usedResource": 3,
       "uses": 8,
       "consumes": [{ "resource": 3, "count": 8 }],
       "passive": 2
@@ -137,7 +126,6 @@
       "biomType": 2,
       "power": 9,
       "converts": 299,
-      "usedResource": 3,
       "uses": 7,
       "consumes": [{ "resource": 3, "count": 7 }],
       "passive": 2

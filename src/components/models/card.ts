@@ -21,5 +21,5 @@ export default interface Card {
 interface AoeEffect {
    power?: number;
    range?: number;
-   resources?: ResourceType;
+   resource?: ResourceType;
 }
