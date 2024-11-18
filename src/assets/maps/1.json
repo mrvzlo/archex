@@ -34,7 +34,7 @@
    { "biomType": 1, "spotType": 2 },
    { "biomType": 2, "spotType": 21, "resourceType": 100 },
    { "biomType": 3, "spotType": 0 },
-   { "biomType": 2, "spotType": 24, "resourceType": 201 },
+   { "biomType": 2, "spotType": 24, "resourceType": 200 },
    { "biomType": 1, "spotType": 5 },
    { "biomType": 1, "spotType": 2 },
    { "biomType": 1, "spotType": 5 },

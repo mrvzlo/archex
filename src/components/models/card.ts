@@ -8,9 +8,18 @@ export default interface Card {
    spotType: SpotType;
    biomType: BiomType;
    power?: number;
+   passive?: number;
    converts?: number;
 
-   aoePower?: number;
-   aoeRange?: number;
-   aoeResources?: ResourceType[];
+   aoe?: AoeEffect[];
+   consumes?: {
+      resource?: ResourceType;
+      count?: number;
+   }[];
+}
+
+interface AoeEffect {
+   power?: number;
+   range?: number;
+   resources?: ResourceType;
 }

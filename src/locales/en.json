@@ -92,8 +92,8 @@
       "503": "Emerald mine"
    },
    "produces": "Produces",
-   "forEach": "for each of these resources in range {x}",
-   "ifHas": "if has any of these resources in range {x}",
+   "forEach": "for each of this in range {x}",
+   "ifHas": "if has any of this in range {x}",
    "escape": "Press escape to cancel",
    "enter": "Press enter to start new round"
 }

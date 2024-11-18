@@ -70,9 +70,9 @@
                <span class="my-auto">{{ $t('produces') }}</span>
                <img :src="drawingManager.getSpotResourceImg(card.converts ?? card.resource)" />
                <span>x{{ card.power ?? 1 }}&nbsp;</span>
-               <span v-if="card.aoeRange">{{ card.aoePower! > 0 ? '+' : '' }}{{ card.aoePower }} {{ $t('forEach', { x: card.aoeRange }) }}:</span>
-               <div class="linked">
-                  <img v-for="linked of card.aoeResources" :src="drawingManager.getSpotResourceImg(linked)" />
+               <div v-for="aoe in card.aoe">
+                  <span v-if="aoe.range">{{ aoe.power! > 0 ? '+' : '' }}{{ aoe.power }} {{ $t('forEach', { x: aoe.range }) }}</span>
+                  <img :src="drawingManager.getSpotResourceImg(aoe.resources!)" />
                </div>
             </div>
             <div class="big-num">{{ card.num }}</div>

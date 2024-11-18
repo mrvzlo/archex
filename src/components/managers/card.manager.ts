@@ -11,7 +11,9 @@ export default class CardManager {
    }
 
    public findCardByResource(resourceType: ResourceType) {
-      return this.cards.find((x) => x.resource === resourceType);
+      const card = this.cards.find((x) => x.resource === resourceType);
+      if (!card) console.error(resourceType, card);
+      return card;
    }
 
    public findRandomCardsBySpot(spotType: SpotType, biomType: BiomType) {

@@ -27,7 +27,7 @@ const buildings: Spot[] = [
    { spotType: SpotType.Cave, biomType: BiomType.Grass },
    { spotType: SpotType.Fort, biomType: BiomType.Grass },
    { spotType: SpotType.Village1, biomType: BiomType.Grass },
-   { spotType: SpotType.Tower, biomType: BiomType.Grass },
+   //{ spotType: SpotType.Tower, biomType: BiomType.Grass },
    { spotType: SpotType.Rift, biomType: BiomType.Grass },
 ];
 

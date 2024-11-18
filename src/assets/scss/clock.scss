@@ -30,15 +30,31 @@ $width: 48px;
 
    &.time-0 {
       animation: rotate1 1s forwards;
+      img:not(.t0) {
+         filter: contrast(0.5);
+         background: #fff0;
+      }
    }
    &.time-1 {
       animation: rotate2 1s forwards;
+      img:not(.t1) {
+         filter: contrast(0.5);
+         background: #fff0;
+      }
    }
    &.time-2 {
       animation: rotate3 1s forwards;
+      img:not(.t2) {
+         filter: contrast(0.5);
+         background: #fff0;
+      }
    }
    &.time-3 {
       animation: rotate4 1s forwards;
+      img:not(.t3) {
+         filter: contrast(0.5);
+         background: #fff0;
+      }
    }
 }
 
