@@ -3,6 +3,7 @@
       <img :src="drawingManager.getSpotImg(spot)" />
       <img class="resource" :src="drawingManager.getSpotResourceImg(spot.resourceType)" v-if="spot.resourceType" />
       <div class="number" v-if="spot.resourceType">{{ getCard()?.num }}</div>
+      <div class="gain" v-if="spot.animations?.gain > 0">+{{ spot.animations?.gain }}</div>
    </div>
 </template>
 

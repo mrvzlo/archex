@@ -71,8 +71,9 @@
                <img :src="drawingManager.getSpotResourceImg(card.converts ?? card.resource)" />
                <span>x{{ card.power ?? 1 }}&nbsp;</span>
                <div v-for="aoe in card.aoe">
-                  <span v-if="aoe.range">{{ aoe.power! > 0 ? '+' : '' }}{{ aoe.power }} {{ $t('forEach', { x: aoe.range }) }}</span>
+                  <span>{{ aoe.power! > 0 ? '+' : '' }}{{ aoe.power }} {{ $t('forEach') }}</span>
                   <img :src="drawingManager.getSpotResourceImg(aoe.resource!)" />
+                  <span>{{ $t('inRange', { x: aoe.range }) }}</span>
                </div>
             </div>
             <div class="big-num">{{ card.num }}</div>
@@ -179,6 +180,7 @@ const startRoll = () => {
    dice.animating = true;
    for (let i = 0; i < 4; i++) dice.selected[i] = false;
    gameState.nextRound();
+   manager.clearAnimations(field);
    dice.selectedCount = 0;
    dice.sum = 0;
 

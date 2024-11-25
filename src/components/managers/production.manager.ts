@@ -30,7 +30,9 @@ export default class ProductionManager {
          if (!spot.resourceType) return;
          const card = this.cardManager.findCardByResource(spot.resourceType);
          if (card?.num !== number) return;
-         this.addToBank(bank, this.calculateIncome(field, spot, card));
+         const income = this.calculateIncome(field, spot, card);
+         spot.animations.gain = income.count;
+         this.addToBank(bank, income);
       });
    }
 

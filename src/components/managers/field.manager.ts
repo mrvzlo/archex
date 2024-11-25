@@ -2,13 +2,13 @@ import { BiomType } from '../models/biom.type';
 import GameField from '../models/game-field';
 import FieldSpot from '../models/field-spot';
 import { SpotType } from '../models/spot.type';
-import Cost from '../models/cost';
 
 export default class FieldManager {
    public createField(width: number, height: number, spots: FieldSpot[]) {
       const field = { spots, width, height } as GameField;
       this.formatField(field);
       this.setMatches(field, null);
+      this.clearAnimations(field);
       return field;
    }
 
@@ -21,6 +21,13 @@ export default class FieldManager {
          const right = field.width - 0;
          spot.id = i;
          spot.available = col > left && col < right;
+      });
+   }
+
+   public clearAnimations(field: GameField) {
+      field.spots.forEach((spot) => {
+         spot.animations = {};
+         spot.animations.gain = 0;
       });
    }
 

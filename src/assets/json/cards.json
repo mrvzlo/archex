@@ -20,7 +20,7 @@
       "biomType": 2,
       "power": 3,
       "converts": 99,
-      "aoe": [{ "power": 2, "resource": "102", "range": 1 }],
+      "aoe": [{ "power": 2, "resource": 102, "range": 1 }],
       "passive": -1
    },
    {
@@ -30,7 +30,7 @@
       "biomType": 2,
       "power": 5,
       "converts": 99,
-      "aoe": [{ "resource": "100", "power": 1, "range": 2 }],
+      "aoe": [{ "resource": 100, "power": 1, "range": 2 }],
       "passive": -1
    },
    {
@@ -40,7 +40,7 @@
       "biomType": 2,
       "power": 4,
       "converts": 99,
-      "aoe": [{ "resource": "105", "power": 1, "range": 1 }],
+      "aoe": [{ "resource": 105, "power": 1, "range": 1 }],
       "passive": -1
    },
    {
