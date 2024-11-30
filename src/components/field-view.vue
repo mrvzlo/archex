@@ -83,6 +83,7 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps } from 'vue';
 import { reactive, ref } from 'vue';
 import SpotView from './spot-view.vue';
 import RoundClock from './round-clock.vue';
@@ -100,6 +101,7 @@ import Card from './models/card';
 import { RoundState } from './models/round-state';
 import GameState from './models/game-state';
 import ProductionManager from './managers/production.manager';
+import AudioManager from './managers/audio.manager';
 
 const width = 9;
 const height = 7;
@@ -107,6 +109,7 @@ const manager = new FieldManager();
 const drawingManager = new DrawingManager();
 const cardManager = new CardManager();
 const productionManager = new ProductionManager(cardManager);
+const props = defineProps({ audioManager: AudioManager });
 
 const folder = require.context('../assets/maps', false, /\.json$/)!;
 const spots = folder('./1.json');
@@ -125,11 +128,15 @@ const bank = reactive(productionManager.getStartBank());
 const placeSelected = (spot: FieldSpot) => {
    if (gameState.roundState !== RoundState.Placement) return;
    if (spot.mismatch) return;
-   if (preselected.spot?.spotType === SpotType.Rift) manager.destroy(spot);
+   const isDestroy = preselected.spot?.spotType === SpotType.Rift;
+   spot.animations.destroyed = isDestroy;
+   if (isDestroy) manager.destroy(spot);
    else {
       if (preselected.spot!.spotType !== SpotType.Empty) spot.spotType = preselected.spot!.spotType;
       if (preselected.spot!.biomType !== BiomType.None) spot.biomType = preselected.spot!.biomType;
    }
+   if (isDestroy) props.audioManager!.playDestroy();
+   else props.audioManager!.playPlace();
    lastPlaced = spot;
 
    deselect();

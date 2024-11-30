@@ -1,9 +1,14 @@
-.locales {
+.settings {
    z-index: 10;
    position: fixed;
    top: 0;
    right: 0;
    margin: 5px;
+   display: flex;
+   flex-direction: row-reverse;
+}
+
+.locales {
    display: flex;
    --back: #7f8576;
    border: solid 2px black;
@@ -18,6 +23,26 @@
       padding: 5px;
       padding-right: 0;
       background: var(--back);
+   }
+}
+
+.btn-sound {
+   font-size: 24px;
+   background: none;
+   border: none;
+   cursor: pointer;
+   width: 42px;
+   border: solid 2px black;
+   border-right: none;
+   background: var(--back);
+   --back: #7f8576;
+   border-top-left-radius: 50px;
+   border-bottom-left-radius: 50px;
+   text-align: left;
+
+   &:hover {
+      text-shadow: white 0 0 2px;
+      --back: #afdaf3af;
    }
 }
 

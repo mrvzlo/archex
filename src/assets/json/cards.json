@@ -14,23 +14,23 @@
    { "resource": 4, "num": 5, "spotType": 22, "biomType": 2, "power": 10, "converts": 4, "passive": -1 },
    { "resource": 10, "num": 6, "spotType": 23, "biomType": 2, "power": 5, "converts": 10, "passive": -1 },
    {
-      "resource": 100,
+      "resource": 108,
       "num": 7,
       "spotType": 21,
       "biomType": 2,
       "power": 3,
       "converts": 99,
-      "aoe": [{ "power": 2, "resource": 102, "range": 1 }],
+      "aoe": [{ "power": 2, "resource": 106, "range": 1 }],
       "passive": -1
    },
    {
-      "resource": 102,
+      "resource": 106,
       "num": 9,
       "spotType": 21,
       "biomType": 2,
       "power": 5,
       "converts": 99,
-      "aoe": [{ "resource": 100, "power": 1, "range": 2 }],
+      "aoe": [{ "resource": 108, "power": 1, "range": 2 }],
       "passive": -1
    },
    {

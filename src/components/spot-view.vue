@@ -1,5 +1,5 @@
 <template>
-   <div @mouseover="showTooltip($event)" @mouseleave="hideTooltip($event)">
+   <div @mouseover="showTooltip($event)" @mouseleave="hideTooltip($event)" :class="{ destroyed: spot.animations?.destroyed }">
       <img :src="drawingManager.getSpotImg(spot)" />
       <img class="resource" :src="drawingManager.getSpotResourceImg(spot.resourceType)" v-if="spot.resourceType" />
       <div class="number" v-if="spot.resourceType">{{ getCard()?.num }}</div>

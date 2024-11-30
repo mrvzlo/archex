@@ -18,7 +18,6 @@ export default class CardManager {
 
    public findRandomCardsBySpot(spotType: SpotType, biomType: BiomType) {
       const cards = this.findCardsBySpot(spotType, biomType);
-      console.log(spotType, biomType);
 
       const random: Card[] = [];
       for (let i = 0; i < 3 && cards.length > 0; i++) {
