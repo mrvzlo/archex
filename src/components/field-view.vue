@@ -26,9 +26,14 @@
    </div>
    <div class="resources-list">
       <div v-for="resource of bank">
-         <div v-if="resource.count > 0" class="row">
+         <div
+            v-if="resource.count > 0 || resource.important"
+            class="row"
+            :class="{ notEnough: resource.important && resource.count < field.spotsToFeed }"
+         >
             <img :src="drawingManager.getSpotResourceImg(resource.resource)" :class="{ small: resource.resource < 99 }" />
             <span>{{ resource.count }}</span>
+            <span class="minus">({{ resource.count - field.spotsToFeed }})</span>
          </div>
       </div>
    </div>
@@ -75,6 +80,19 @@
                   <img :src="drawingManager.getSpotResourceImg(aoe.resource!)" />
                   <span>{{ $t('inRange', { x: aoe.range }) }}</span>
                </div>
+               <br />
+               <span v-if="card.consumes">
+                  {{ $t('consume') }}
+                  <span v-for="consume in card.consumes">
+                     <img :src="drawingManager.getSpotResourceImg(consume.resource!)" />
+                     <span>x{{ consume.count ?? 1 }}</span>
+                  </span>
+               </span>
+               <br />
+               <span v-if="card.passive >= 0">
+                  {{ $t('passive') }}
+                  <img :src="drawingManager.getSpotResourceImg(`t${card.passive}`)" />
+               </span>
             </div>
             <div class="big-num">{{ card.num }}</div>
          </div>
@@ -102,6 +120,7 @@ import { RoundState } from './models/round-state';
 import GameState from './models/game-state';
 import ProductionManager from './managers/production.manager';
 import AudioManager from './managers/audio.manager';
+import { RoundStageType } from './models/round-stage.type';
 
 const width = 9;
 const height = 7;
@@ -141,11 +160,13 @@ const placeSelected = (spot: FieldSpot) => {
 
    deselect();
    setupCardsToChoose();
+   manager.recalculateSpotsToFeed(field);
 };
 
 const setupCardsToChoose = () => {
    toChoose.cards = cardManager.findRandomCardsBySpot(lastPlaced.spotType, lastPlaced.biomType);
    gameState.roundState = RoundState.CardChoose;
+   console.log(toChoose.cards);
    if (!toChoose.cards.length) gameState.roundState = RoundState.Buying;
 };
 
@@ -172,6 +193,7 @@ window.onkeyup = (event: KeyboardEvent) => {
    if (event.code === 'Enter') startRoll();
    if (event.code.startsWith('Digit')) {
       const key = (Number(event.key) + 9) % 10;
+      if (key >= toolbar.value.buildings.length) return;
       selectFromToolBar(toolbar.value.buildings[key]);
    }
 };
@@ -191,10 +213,21 @@ const startRoll = () => {
    dice.selectedCount = 0;
    dice.sum = 0;
 
+   performRegularConsumes();
+   if (gameState.roundState !== RoundState.DicePick) return;
+
    setTimeout(() => {
       for (let i = 0; i < 4; i++) dice.values[i] = Math.floor(Math.random() * 6) + 1;
    }, 600);
    setTimeout(() => (dice.animating = false), 1000);
+};
+
+const performRegularConsumes = () => {
+   if (gameState.roundStage === RoundStageType.Day) manager.performConsume(ResourceType.Food, field, bank);
+   if (gameState.roundStage === RoundStageType.Night) manager.performConsume(ResourceType.Weapon, field, bank);
+   manager.recalculateSpotsToFeed(field);
+   if (!manager.isGameOver(field)) return;
+   gameState.roundState = RoundState.GameOver;
 };
 
 const selectDie = (num: number) => {
@@ -207,7 +240,7 @@ const selectDie = (num: number) => {
 };
 
 const gain = () => {
-   productionManager.produce(bank, field, dice.sum);
+   productionManager.produceByDice(bank, field, dice.sum);
    gameState.roundState = RoundState.Buying;
 };
 </script>

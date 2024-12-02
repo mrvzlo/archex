@@ -3,10 +3,8 @@ export enum ResourceType {
    Stone = 2,
    Leather = 3,
    Iron = 4,
-   Planks = 5,
-   Wood1 = 10,
-   Wood2 = 11,
-   Wood3 = 12,
+   Wood = 10,
+   Water2 = 11,
 
    Food = 99,
    Apple,
@@ -38,6 +36,7 @@ export enum ResourceType {
    Sword4,
    Axeman,
    Poleaxe,
+   Club,
 
    Horse = 250,
 
@@ -61,4 +60,5 @@ export enum ResourceType {
    Ruby,
    Diamond,
    Emerald,
+   Jewelry = 550,
 }

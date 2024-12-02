@@ -11,7 +11,7 @@
             <option value="ru" :selected="localeManager.current === 'ru'">Русский</option>
          </select>
       </div>
-      <button class="btn-sound" v-on:click="audioManager.toggle()">
+      <button class="btn-sound" v-on:click="toggleSound()">
          <span v-if="audioManager.on">🔊</span>
          <span v-else>🔈</span>
       </button>
@@ -30,4 +30,8 @@ const storageService = new StorageService();
 const localeManager = new LocaleManager();
 const audioManager = reactive(new AudioManager(storageService.getAudio()));
 const changeLocale = (target: EventTarget) => localeManager.setLocale((target as HTMLSelectElement).value);
+const toggleSound = () => {
+   audioManager.toggle();
+   storageService.setAudio(audioManager.on);
+};
 </script>

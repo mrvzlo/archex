@@ -7,7 +7,7 @@
    { "biomType": 3, "spotType": 0 },
    { "biomType": 1, "spotType": 2 },
    { "biomType": 1, "spotType": 0 },
-   { "biomType": 1, "spotType": 1 },
+   { "biomType": 2, "spotType": 6 },
 
    { "biomType": 2, "spotType": 6 },
    { "biomType": 1, "spotType": 0 },
@@ -17,7 +17,7 @@
    { "biomType": 1, "spotType": 2 },
    { "biomType": 1, "spotType": 0 },
    { "biomType": 1, "spotType": 0 },
-   { "biomType": 1, "spotType": 2 },
+   { "biomType": 2, "spotType": 6 },
 
    { "biomType": 1, "spotType": 0 },
    { "biomType": 1, "spotType": 2 },

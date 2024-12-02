@@ -1,8 +1,9 @@
+import { RoundStageType } from './round-stage.type';
 import { RoundState } from './round-state';
 
 export default class GameState {
    roundState = RoundState.BeforeStart;
-   roundStage = 3;
+   roundStage = RoundStageType.Night;
    round = 0;
 
    nextRound() {

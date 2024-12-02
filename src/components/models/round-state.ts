@@ -5,4 +5,5 @@ export enum RoundState {
    Placement,
    CardChoose,
    GameStateCheck,
+   GameOver = 99,
 }

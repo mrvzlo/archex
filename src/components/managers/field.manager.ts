@@ -2,6 +2,8 @@ import { BiomType } from '../models/biom.type';
 import GameField from '../models/game-field';
 import FieldSpot from '../models/field-spot';
 import { SpotType } from '../models/spot.type';
+import Cost from '../models/cost';
+import { ResourceType } from '../models/resource.type';
 
 export default class FieldManager {
    public createField(width: number, height: number, spots: FieldSpot[]) {
@@ -9,6 +11,7 @@ export default class FieldManager {
       this.formatField(field);
       this.setMatches(field, null);
       this.clearAnimations(field);
+      this.recalculateSpotsToFeed(field);
       return field;
    }
 
@@ -63,17 +66,44 @@ export default class FieldManager {
       return neighboorSpots.some((x) => x >= SpotType.Tower);
    }
 
+   private getNeighborsSpots(pos: number, field: GameField, inclideItself = false) {
+      const neighboors = getNeighborsInRange(1, pos, field.width, field.height);
+      if (inclideItself) neighboors.push(pos);
+      return neighboors.map((x) => field.spots[x]);
+   }
+
+   public performConsume(resource: ResourceType, field: GameField, bank: Cost[]) {
+      const spotsToFeed = field.spots.filter((x) => x.resourceType);
+      const losses = this.payAndCountLosses(resource, spotsToFeed.length, bank);
+      for (let i = 0; i < losses; i++) {
+         const loss = Math.floor(Math.random() * spotsToFeed.length);
+         this.destroy(spotsToFeed[loss]);
+         spotsToFeed[loss].animations.destroyed = true;
+         spotsToFeed[loss] = spotsToFeed[spotsToFeed.length - 1];
+         spotsToFeed.pop();
+      }
+   }
+
+   public recalculateSpotsToFeed(field: GameField) {
+      field.spotsToFeed = field.spots.filter((x) => x.resourceType).length;
+   }
+
+   public isGameOver(field: GameField) {
+      return field.spots.filter((x) => x.resourceType).length === 0;
+   }
+
+   private payAndCountLosses(resource: ResourceType, spotsCount: number, bank: Cost[]) {
+      const costModel = bank.find((x) => x.resource === resource)!;
+      const losses = Math.max(0, spotsCount - costModel.count);
+      costModel.count -= Math.min(spotsCount, costModel.count);
+      return losses;
+   }
+
    public destroy(spot: FieldSpot) {
       spot.resourceType = undefined;
       if (spot.spotType === SpotType.Cave) spot.spotType = SpotType.Mountain;
       else if (spot.spotType === SpotType.Woodman) spot.spotType = SpotType.Trees;
       else spot.spotType = SpotType.Empty;
-   }
-
-   private getNeighborsSpots(pos: number, field: GameField, inclideItself = false) {
-      const neighboors = getNeighborsInRange(1, pos, field.width, field.height);
-      if (inclideItself) neighboors.push(0);
-      return neighboors.map((x) => field.spots[x]);
    }
 }
 

@@ -89,7 +89,8 @@
       "500": "Gold mine",
       "501": "Ruby mine",
       "502": "Diamond mine",
-      "503": "Emerald mine"
+      "503": "Emerald mine",
+      "550": "Jeweler"
    },
    "produces": "Produces",
    "forEach": "for each",
@@ -97,5 +98,8 @@
    "inRange": "in range {x}",
 
    "escape": "Press escape to cancel",
-   "enter": "Press enter to start the game"
+   "enter": "Press enter to start the game",
+   "consume": "Need for production:",
+   "passive": "Extra production every",
+   "gameOver": []
 }

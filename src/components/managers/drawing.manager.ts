@@ -3,7 +3,7 @@ import { ResourceType } from '../models/resource.type';
 import FieldSpot from '../models/field-spot';
 
 export default class DrawingManager {
-   public getSpotResourceImg(resource: ResourceType) {
+   public getSpotResourceImg(resource: ResourceType | string) {
       const folder = this.getResourceFolder();
       if (!folder) return '';
       return folder(`./${resource}.png`);
