@@ -9,15 +9,16 @@ import CardManager from './card.manager';
 import { getNeighborsInRange } from './field.manager';
 
 export default class ProductionManager {
-   constructor(private cardManager: CardManager) {}
+   public bank: Cost[] = [];
 
-   public getStartBank(): Cost[] {
-      return [
+   constructor(private cardManager: CardManager) {
+      this.bank = [
          { resource: ResourceType.Food, count: 10, important: true },
-         { resource: ResourceType.Weapon, count: 25, important: true },
+         { resource: ResourceType.Weapon, count: 15, important: true },
          { resource: ResourceType.Water, count: 5 },
-         { resource: ResourceType.Wood, count: 0 },
+         { resource: ResourceType.Wood, count: 5 },
          { resource: ResourceType.Stone, count: 0 },
+         { resource: ResourceType.Iron, count: 3 },
          { resource: ResourceType.Leather, count: 0 },
          { resource: ResourceType.Iron, count: 0 },
          { resource: ResourceType.Armor, count: 0 },
@@ -66,6 +67,7 @@ export default class ProductionManager {
          const matches = positions.map((x) => field.spots[x].resourceType).filter((x) => x === aoe.resource);
          count += matches.length * aoe.power!;
       });
+      count = Math.max(0, count);
       return { resource, count };
    }
 

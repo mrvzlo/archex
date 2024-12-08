@@ -9,6 +9,10 @@
    padding: 2px;
    border: solid 2px black;
    pointer-events: none;
+
+   &.resource-consume {
+      transform: scale(0.5) translate(0%, 40%);
+   }
 }
 
 .number {
@@ -29,6 +33,12 @@
    text-align: center;
    line-height: 22px;
    font-weight: 900;
+
+   &.number-passive {
+      border-radius: 50%;
+      height: 32px;
+      transform: scale(0.8) translate(30%, -30%) rotate(-30deg);
+   }
 }
 
 .gain {

@@ -1,14 +1,21 @@
 <template>
    <div @mouseover="showTooltip($event)" @mouseleave="hideTooltip($event)" :class="{ destroyed: spot.animations?.destroyed }">
       <img :src="drawingManager.getSpotImg(spot)" />
-      <img class="resource" :src="drawingManager.getSpotResourceImg(spot.resourceType)" v-if="spot.resourceType" />
-      <div class="number" v-if="spot.resourceType">{{ getCard()?.num }}</div>
       <div class="gain" v-if="spot.animations?.gain > 0">+{{ spot.animations?.gain }}</div>
+      <div v-if="spot.resourceType">
+         <img class="resource" :src="drawingManager.getSpotResourceImg(spot.resourceType)" />
+         <div class="number">{{ getCard()?.num }}</div>
+         <img class="number number-passive" v-if="getPassive() >= 0" :src="drawingManager.getSpotResourceImg(`t${getPassive()}`)" />
+
+         <div v-for="consume of getConsumes()">
+            <img class="resource resource-consume" :src="drawingManager.getSpotResourceImg(consume.resource)" />
+         </div>
+      </div>
    </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, inject } from 'vue';
 import DrawingManager from './managers/drawing.manager';
 import Card from './models/card';
 import FieldSpot from './models/field-spot';
@@ -16,8 +23,8 @@ import { useI18n } from 'vue-i18n';
 import CardManager from './managers/card.manager';
 const { t } = useI18n();
 
-const drawingManager = new DrawingManager();
-const cardManager = new CardManager();
+const drawingManager = inject('DrawingManager')! as DrawingManager;
+const cardManager = inject('CardManager')! as CardManager;
 const props = defineProps({ spot: {} as FieldSpot, showTooltip: false } as any);
 let tooltipShown = false;
 let tooltip: HTMLDivElement;
@@ -40,6 +47,9 @@ const hideTooltip = (_: MouseEvent) => {
    document.body.removeChild(tooltip);
    tooltipShown = false;
 };
+
+const getConsumes = () => getCard()?.consumes ?? [];
+const getPassive = () => getCard()?.passive ?? -1;
 
 const getCard = () => {
    return cardManager.findCardByResource(props.spot.resourceType)!;

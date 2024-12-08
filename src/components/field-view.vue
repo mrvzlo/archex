@@ -101,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, inject } from 'vue';
 import { reactive, ref } from 'vue';
 import SpotView from './spot-view.vue';
 import RoundClock from './round-clock.vue';
@@ -124,14 +124,14 @@ import { RoundStageType } from './models/round-stage.type';
 
 const width = 9;
 const height = 7;
-const manager = new FieldManager();
-const drawingManager = new DrawingManager();
-const cardManager = new CardManager();
+const drawingManager = inject('DrawingManager')! as DrawingManager;
+const cardManager = inject('CardManager')! as CardManager;
 const productionManager = new ProductionManager(cardManager);
 const props = defineProps({ audioManager: AudioManager });
 
 const folder = require.context('../assets/maps', false, /\.json$/)!;
 const spots = folder('./1.json');
+const manager = new FieldManager();
 
 const field = reactive(manager.createField(width, height, spots));
 const gameState = reactive(new GameState());
@@ -142,7 +142,7 @@ let toChoose = reactive({ cards: [] as Card[] });
 const toolbar = ref();
 const dice = reactive({ values: [1, 1, 1, 1], selected: [] as boolean[], animating: false, sum: 0, selectedCount: 0 });
 
-const bank = reactive(productionManager.getStartBank());
+const bank = reactive(productionManager.bank);
 
 const placeSelected = (spot: FieldSpot) => {
    if (gameState.roundState !== RoundState.Placement) return;
@@ -166,7 +166,6 @@ const placeSelected = (spot: FieldSpot) => {
 const setupCardsToChoose = () => {
    toChoose.cards = cardManager.findRandomCardsBySpot(lastPlaced.spotType, lastPlaced.biomType);
    gameState.roundState = RoundState.CardChoose;
-   console.log(toChoose.cards);
    if (!toChoose.cards.length) gameState.roundState = RoundState.Buying;
 };
 
@@ -241,6 +240,7 @@ const selectDie = (num: number) => {
 
 const gain = () => {
    productionManager.produceByDice(bank, field, dice.sum);
+   productionManager.produceByTime(bank, field, gameState.roundStage);
    gameState.roundState = RoundState.Buying;
 };
 </script>
