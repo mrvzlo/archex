@@ -20,10 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, reactive } from 'vue';
+import { defineProps } from 'vue';
 import GameState from './models/game-state';
-import { RoundState } from './models/round-state';
-import Spot from './models/spot';
+import { RoundState } from './enums/round-state';
 
 const props = defineProps({ nextRound: Function, animating: false, state: GameState } as any);
 </script>

@@ -1,5 +1,5 @@
-import { BiomType } from '../models/biom.type';
-import { ResourceType } from '../models/resource.type';
+import { BiomType } from '../enums/biom.type';
+import { ResourceType } from '../enums/resource.type';
 import FieldSpot from '../models/field-spot';
 
 export default class DrawingManager {

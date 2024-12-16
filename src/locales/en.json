@@ -101,5 +101,24 @@
    "enter": "Press enter to start the game",
    "consume": "Need for production:",
    "passive": "Extra production every",
-   "gameOver": []
+   "gameOver": "Game over",
+   "restart": "Restart",
+   "gameOvers": [
+      "--(Impossible)",
+      "No food, no survival, people are starving",
+      "Enemies ran out of mercy and destroyed your kingdom",
+      "Hunger and war destroyed your plans rapidly",
+      "--No water (impossible)",
+      "All plants withered, pathetic",
+      "Are you gonna fight with tomatoes?",
+      "Starving warriors flee from your army",
+      "--No clothes (impossible)",
+      "Your people are starving and defenseless",
+      "Your soldiers died without any defense",
+      "Starving and defenseless army is the worse army",
+      "--No water and clothes (impossible)",
+      "You cant feed your people with swords",
+      "These farms were so rich, they attracted so many raiders",
+      "You lost everything - no food, no weapon, no armor, no water, no help"
+   ]
 }

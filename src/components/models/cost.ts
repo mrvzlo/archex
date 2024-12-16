@@ -1,4 +1,4 @@
-import { ResourceType } from './resource.type';
+import { ResourceType } from '../enums/resource.type';
 
 export default interface Cost {
    resource: ResourceType;

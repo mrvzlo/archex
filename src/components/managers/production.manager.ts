@@ -2,30 +2,13 @@ import Card from '../models/card';
 import Cost from '../models/cost';
 import FieldSpot from '../models/field-spot';
 import GameField from '../models/game-field';
-import { ResourceType } from '../models/resource.type';
-import { RoundStageType } from '../models/round-stage.type';
-import Spot from '../models/spot';
+import { ResourceType } from '../enums/resource.type';
+import { RoundStageType } from '../enums/round-stage.type';
 import CardManager from './card.manager';
 import { getNeighborsInRange } from './field.manager';
 
 export default class ProductionManager {
-   public bank: Cost[] = [];
-
-   constructor(private cardManager: CardManager) {
-      this.bank = [
-         { resource: ResourceType.Food, count: 10, important: true },
-         { resource: ResourceType.Weapon, count: 15, important: true },
-         { resource: ResourceType.Water, count: 5 },
-         { resource: ResourceType.Wood, count: 5 },
-         { resource: ResourceType.Stone, count: 0 },
-         { resource: ResourceType.Iron, count: 3 },
-         { resource: ResourceType.Leather, count: 0 },
-         { resource: ResourceType.Iron, count: 0 },
-         { resource: ResourceType.Armor, count: 0 },
-         { resource: ResourceType.Books, count: 0 },
-         { resource: ResourceType.Gems, count: 0 },
-      ];
-   }
+   constructor(private cardManager: CardManager) {}
 
    public produceByDice(bank: Cost[], field: GameField, number: number) {
       field.spots.forEach((spot) => {
@@ -79,6 +62,14 @@ export default class ProductionManager {
          return;
       }
       el.count += count;
+   }
+
+   public getGameOverType(bank: Cost[]) {
+      const noFood = !this.getBankValue(bank, ResourceType.Food)?.count ? 1 : 0;
+      const noWeapon = !this.getBankValue(bank, ResourceType.Weapon)?.count ? 1 : 0;
+      const noWater = !this.getBankValue(bank, ResourceType.Water)?.count ? 1 : 0;
+      const noArmor = !this.getBankValue(bank, ResourceType.Armor)?.count ? 1 : 0;
+      return noFood + noWeapon * 2 + noWater * 4 + noArmor * 8;
    }
 
    private getBankValue(bank: Cost[], resource: ResourceType) {

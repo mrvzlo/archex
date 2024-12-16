@@ -1,6 +1,6 @@
-import { BiomType } from './biom.type';
-import { ResourceType } from './resource.type';
-import { SpotType } from './spot.type';
+import { BiomType } from '../enums/biom.type';
+import { ResourceType } from '../enums/resource.type';
+import { SpotType } from '../enums/spot.type';
 
 export default interface Card {
    num: number;

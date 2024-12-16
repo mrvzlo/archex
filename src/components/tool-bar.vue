@@ -9,9 +9,8 @@
 <script setup lang="ts">
 import { defineExpose } from 'vue';
 import SpotView from './spot-view.vue';
-import { BiomType } from './models/biom.type';
-import { SpotType } from './models/spot.type';
-import FieldSpot from './models/field-spot';
+import { BiomType } from './enums/biom.type';
+import { SpotType } from './enums/spot.type';
 import { defineProps, reactive } from 'vue';
 import Cost from './models/cost';
 import Spot from './models/spot';

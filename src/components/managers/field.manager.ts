@@ -1,18 +1,19 @@
-import { BiomType } from '../models/biom.type';
+import { BiomType } from '../enums/biom.type';
 import GameField from '../models/game-field';
 import FieldSpot from '../models/field-spot';
-import { SpotType } from '../models/spot.type';
+import { SpotType } from '../enums/spot.type';
 import Cost from '../models/cost';
-import { ResourceType } from '../models/resource.type';
+import { ResourceType } from '../enums/resource.type';
 
 export default class FieldManager {
-   public createField(width: number, height: number, spots: FieldSpot[]) {
-      const field = { spots, width, height } as GameField;
+   public setField(field: GameField, width: number, height: number, spots: FieldSpot[]) {
+      field.width = width;
+      field.height = height;
+      field.spots = spots;
       this.formatField(field);
       this.setMatches(field, null);
       this.clearAnimations(field);
       this.recalculateSpotsToFeed(field);
-      return field;
    }
 
    private formatField(field: GameField) {

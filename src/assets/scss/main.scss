@@ -171,3 +171,57 @@ img {
    opacity: 0.5;
    font-weight: bold;
 }
+
+.backdrop {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: #0006;
+   z-index: 1000;
+
+   .text {
+      top: calc(var(--top) * 1%);
+      left: calc(var(--left) * 1%);
+      position: absolute;
+
+      padding: 20px;
+      border: solid 2px #000;
+      background-color: #afb1ac;
+      font-size: 20px;
+      border-radius: 2px;
+      box-shadow: 0 0 10px 4px #fff;
+
+      &.center {
+         transform: translate(-50%, -50%);
+      }
+   }
+}
+
+.game-over {
+   font-weight: bold;
+   text-align: center;
+   line-height: 1.5;
+
+   .text {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 30px 50px;
+   }
+
+   button {
+      font-size: 16px;
+      padding: 5px 10px;
+      margin: auto;
+      border: solid 2px #000;
+      border-radius: 50px;
+      cursor: pointer;
+
+      &:hover {
+         background-color: #ded;
+         box-shadow: 0 0 4px 1px #fff;
+      }
+   }
+}

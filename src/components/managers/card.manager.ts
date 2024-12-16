@@ -1,7 +1,7 @@
-import { BiomType } from '../models/biom.type';
+import { BiomType } from '../enums/biom.type';
 import Card from '../models/card';
-import { ResourceType } from '../models/resource.type';
-import { SpotType } from '../models/spot.type';
+import { ResourceType } from '../enums/resource.type';
+import { SpotType } from '../enums/spot.type';
 
 export default class CardManager {
    private cards: Card[];

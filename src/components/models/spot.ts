@@ -1,5 +1,5 @@
-import { BiomType } from './biom.type';
-import { SpotType } from './spot.type';
+import { BiomType } from '../enums/biom.type';
+import { SpotType } from '../enums/spot.type';
 
 export default interface Spot {
    biomType: BiomType;

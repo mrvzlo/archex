@@ -37,7 +37,7 @@
          </div>
       </div>
    </div>
-   <div class="grid map" :style="'--count:' + width" :class="{ hoverable: gameState.roundState === RoundState.Placement }">
+   <div class="grid map" :style="'--count:' + size.width" :class="{ hoverable: gameState.roundState === RoundState.Placement }">
       <div
          :class="{
             empty: spot.spotType === SpotType.Empty,
@@ -62,8 +62,8 @@
       <spot-view :spot="preselected.spot" />
    </div>
 
-   <div class="card-select" v-if="gameState.roundState === RoundState.CardChoose">
-      <div class="backdrop">
+   <div class="card-select backdrop" v-if="gameState.roundState === RoundState.CardChoose">
+      <div class="inner">
          <div v-for="card of toChoose.cards" class="card" v-on:click="confirmCard(card)">
             <div class="title">
                <div>
@@ -98,6 +98,17 @@
          </div>
       </div>
    </div>
+
+   <div class="backdrop game-over" v-if="gameState.roundState === RoundState.GameOver">
+      <div class="text center" style="--top: 50; --left: 50">
+         {{ $t('gameOver') }}
+         <br />
+         {{ $t('gameOvers.' + gameState.gameOverType) }}
+         <br />
+         <button v-on:click="start()">{{ $t('restart') }}</button>
+      </div>
+   </div>
+   <div class="backdrop tutorial" v-if="false"></div>
 </template>
 
 <script setup lang="ts">
@@ -109,31 +120,32 @@ import Die from './die.vue';
 import ToolBar from './tool-bar.vue';
 import FieldManager from './managers/field.manager';
 import FieldSpot from './models/field-spot';
-import { BiomType } from './models/biom.type';
-import { SpotType } from './models/spot.type';
+import { BiomType } from './enums/biom.type';
+import { SpotType } from './enums/spot.type';
 import DrawingManager from './managers/drawing.manager';
 import Cost from './models/cost';
-import { ResourceType } from './models/resource.type';
+import { ResourceType } from './enums/resource.type';
 import CardManager from './managers/card.manager';
 import Card from './models/card';
-import { RoundState } from './models/round-state';
+import { RoundState } from './enums/round-state';
 import GameState from './models/game-state';
 import ProductionManager from './managers/production.manager';
 import AudioManager from './managers/audio.manager';
-import { RoundStageType } from './models/round-stage.type';
+import { RoundStageType } from './enums/round-stage.type';
+import MapSaveManager from './managers/map-save.manager';
+import GameField from './models/game-field';
 
-const width = 9;
-const height = 7;
+const props = defineProps({ map: '' } as any);
+
 const drawingManager = inject('DrawingManager')! as DrawingManager;
 const cardManager = inject('CardManager')! as CardManager;
+const audioManager = inject('AudioManager')! as AudioManager;
 const productionManager = new ProductionManager(cardManager);
-const props = defineProps({ audioManager: AudioManager });
-
-const folder = require.context('../assets/maps', false, /\.json$/)!;
-const spots = folder('./1.json');
+const mapsManager = new MapSaveManager();
 const manager = new FieldManager();
 
-const field = reactive(manager.createField(width, height, spots));
+let size = reactive({ width: 0, height: 0 });
+let field = reactive({} as GameField);
 const gameState = reactive(new GameState());
 const mousePosition = reactive({ x: 0, y: 0 });
 let preselected = reactive({ spot: null as unknown as FieldSpot | null });
@@ -142,7 +154,16 @@ let toChoose = reactive({ cards: [] as Card[] });
 const toolbar = ref();
 const dice = reactive({ values: [1, 1, 1, 1], selected: [] as boolean[], animating: false, sum: 0, selectedCount: 0 });
 
-const bank = reactive(productionManager.bank);
+let bank = reactive([] as Cost[]);
+
+const start = () => {
+   gameState.restart();
+   const save = mapsManager.loadSave(props.map);
+   bank = save.bank;
+   manager.setField(field, save.width, save.height, save.map);
+   size.width = save.width;
+   size.height = save.height;
+};
 
 const placeSelected = (spot: FieldSpot) => {
    if (gameState.roundState !== RoundState.Placement) return;
@@ -154,8 +175,8 @@ const placeSelected = (spot: FieldSpot) => {
       if (preselected.spot!.spotType !== SpotType.Empty) spot.spotType = preselected.spot!.spotType;
       if (preselected.spot!.biomType !== BiomType.None) spot.biomType = preselected.spot!.biomType;
    }
-   if (isDestroy) props.audioManager!.playDestroy();
-   else props.audioManager!.playPlace();
+   if (isDestroy) audioManager.playDestroy();
+   else audioManager.playPlace();
    lastPlaced = spot;
 
    deselect();
@@ -213,7 +234,8 @@ const startRoll = () => {
    dice.sum = 0;
 
    performRegularConsumes();
-   if (gameState.roundState !== RoundState.DicePick) return;
+   const gameOver = () => gameState.roundState === RoundState.GameOver;
+   if (gameOver()) return;
 
    setTimeout(() => {
       for (let i = 0; i < 4; i++) dice.values[i] = Math.floor(Math.random() * 6) + 1;
@@ -227,6 +249,7 @@ const performRegularConsumes = () => {
    manager.recalculateSpotsToFeed(field);
    if (!manager.isGameOver(field)) return;
    gameState.roundState = RoundState.GameOver;
+   gameState.gameOverType = productionManager.getGameOverType(bank);
 };
 
 const selectDie = (num: number) => {
@@ -243,4 +266,6 @@ const gain = () => {
    productionManager.produceByTime(bank, field, gameState.roundStage);
    gameState.roundState = RoundState.Buying;
 };
+
+start();
 </script>

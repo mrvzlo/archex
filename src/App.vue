@@ -16,7 +16,7 @@
          <span v-else>🔈</span>
       </button>
    </div>
-   <field-view :audioManager="audioManager" />
+   <field-view :map="'1'" />
 </template>
 
 <script lang="ts" setup>
@@ -32,13 +32,14 @@ const cardManager = new CardManager();
 const storageService = new StorageService();
 const localeManager = new LocaleManager();
 const drawingManager = new DrawingManager();
+const audioManager = reactive(new AudioManager(storageService.getAudio()));
 
 provide('CardManager', cardManager);
 provide('StorageService', storageService);
 provide('LocaleManager', localeManager);
 provide('DrawingManager', drawingManager);
+provide('AudioManager', audioManager);
 
-const audioManager = reactive(new AudioManager(storageService.getAudio()));
 const changeLocale = (target: EventTarget) => localeManager.setLocale((target as HTMLSelectElement).value);
 const toggleSound = () => {
    audioManager.toggle();
