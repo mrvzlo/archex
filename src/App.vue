@@ -16,12 +16,14 @@
          <span v-else>🔈</span>
       </button>
    </div>
-   <field-view :map="'1'" />
+   <field-view :map="map.num" v-if="map.num" />
+   <main-menu v-if="!map.num" :select="selectMap" />
 </template>
 
 <script lang="ts" setup>
 import { provide, reactive } from 'vue';
 import FieldView from './components/field-view.vue';
+import MainMenu from './components/main-menu.vue';
 import AudioManager from './components/managers/audio.manager';
 import CardManager from './components/managers/card.manager';
 import DrawingManager from './components/managers/drawing.manager';
@@ -34,6 +36,8 @@ const localeManager = new LocaleManager();
 const drawingManager = new DrawingManager();
 const audioManager = reactive(new AudioManager(storageService.getAudio()));
 
+const map = reactive({ num: null as any as string });
+
 provide('CardManager', cardManager);
 provide('StorageService', storageService);
 provide('LocaleManager', localeManager);
@@ -45,4 +49,6 @@ const toggleSound = () => {
    audioManager.toggle();
    storageService.setAudio(audioManager.on);
 };
+
+const selectMap = (x: string) => (map.num = x);
 </script>

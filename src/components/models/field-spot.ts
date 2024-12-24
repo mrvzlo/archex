@@ -1,5 +1,5 @@
+import { ResourceType } from '../enums/resource.type';
 import AnimatedSpot from './animated-spot';
-import { ResourceType } from './resource.type';
 import Spot from './spot';
 
 export default interface FieldSpot extends Spot, AnimatedSpot {

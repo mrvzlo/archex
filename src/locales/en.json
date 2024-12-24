@@ -96,6 +96,7 @@
    "forEach": "for each",
    "ifHas": "if has any",
    "inRange": "in range {x}",
+   "level": "Level {x}",
 
    "escape": "Press escape to cancel",
    "enter": "Press enter to start the game",
@@ -120,5 +121,7 @@
       "You cant feed your people with swords",
       "These farms were so rich, they attracted so many raiders",
       "You lost everything - no food, no weapon, no armor, no water, no help"
-   ]
+   ],
+   "startGame": "New game",
+   "empires": ["Human empire"]
 }

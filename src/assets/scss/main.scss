@@ -9,11 +9,18 @@ $highlight: lighten($primary, 5%);
 @import './field.scss';
 @import './locales.scss';
 @import './spot.scss';
+@import './menu.scss';
+
+@font-face {
+   font-family: Hex;
+   src: url('assets/fonts/Hex-ornate.ttf');
+}
 
 body {
    margin: 0;
    font-family: Verdana;
    user-select: none;
+   overflow: hidden;
 }
 
 #app {

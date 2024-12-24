@@ -219,6 +219,7 @@ window.onkeyup = (event: KeyboardEvent) => {
 };
 
 const deselect = () => {
+   if (gameState.roundState !== RoundState.Placement) return;
    gameState.roundState = RoundState.Buying;
    preselected.spot = null;
    manager.setMatches(field, null);
@@ -237,10 +238,16 @@ const startRoll = () => {
    const gameOver = () => gameState.roundState === RoundState.GameOver;
    if (gameOver()) return;
 
-   setTimeout(() => {
-      for (let i = 0; i < 4; i++) dice.values[i] = Math.floor(Math.random() * 6) + 1;
-   }, 600);
+   setTimeout(() => randomizeDice(), 600);
    setTimeout(() => (dice.animating = false), 1000);
+};
+
+const randomizeDice = () => {
+   for (let i = 0; i < 4; i++) dice.values[i] = Math.floor(Math.random() * 6) + 1;
+   if (dice.values[0] === dice.values[1] && dice.values[2] === dice.values[1]) {
+      dice.values[3] = Math.floor(Math.random() * 5) + 1;
+      if (dice.values[3] >= dice.values[2]) dice.values[3]++;
+   }
 };
 
 const performRegularConsumes = () => {
