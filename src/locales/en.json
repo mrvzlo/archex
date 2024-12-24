@@ -122,6 +122,6 @@
       "These farms were so rich, they attracted so many raiders",
       "You lost everything - no food, no weapon, no armor, no water, no help"
    ],
-   "startGame": "New game",
+   "startGame": "Choose level to start the game",
    "empires": ["Human empire"]
 }

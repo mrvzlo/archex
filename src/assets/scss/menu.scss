@@ -4,11 +4,16 @@
    width: 100%;
    gap: 20px;
 
-   h1 {
+   h1,
+   h2 {
       color: #ddd;
-      font-size: calc(50px + 1vw);
       text-align: center;
-      line-height: 1.2;
+      text-shadow: 0 0 3px #000;
+   }
+
+   h1 {
+      font-size: calc(50px + 1vw);
+      line-height: 100px;
       margin: 0;
       font-family: Hex;
       letter-spacing: 7px;
@@ -16,7 +21,6 @@
       transform: scaleX(2);
       background: #7f8576;
       border-bottom: solid #000 4px;
-      text-shadow: 0 0 3px #000;
       margin-bottom: 100px;
    }
    button {
@@ -44,7 +48,8 @@
    bottom: 0;
    right: 0;
    padding: 5px;
-   color: #fff5;
+   color: #fffa;
+   z-index: 9999;
 }
 
 .levels {
