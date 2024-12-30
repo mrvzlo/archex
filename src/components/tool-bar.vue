@@ -25,7 +25,7 @@ rules[SpotType.Cave] = 'Выкапывается в горе';
 
 const costs: Cost[] = [];
 
-const props = defineProps({ selectFunc: Function, buildings: [] });
+const props = defineProps({ selectFunc: Function, buildings: null as Spot[] });
 
 const selectSpot = (spot: Spot | null) => props.selectFunc!(spot);
 </script>

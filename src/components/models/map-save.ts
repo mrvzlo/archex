@@ -8,6 +8,6 @@ export default interface MapSave {
    width: number;
    height: number;
    bank: Cost[];
-   goal: Goal[];
+   goals: Goal[];
    toolbar: Spot[];
 }

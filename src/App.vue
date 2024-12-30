@@ -17,7 +17,7 @@
       </div>
       <button class="btn-exit" v-on:click="exit()" :disabled="!map.num">X</button>
    </div>
-   <field-view :map="map.num" v-if="map.num" />
+   <field-view :map="map.num" v-if="map.num" :exit="exit" />
    <main-menu v-if="!map.num" :select="selectMap" />
 </template>
 

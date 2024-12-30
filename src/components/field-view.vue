@@ -31,7 +31,7 @@
             class="row"
             :class="{ notEnough: resource.important && resource.count < field.spotsToFeed }"
          >
-            <img :src="drawingManager.getSpotResourceImg(resource.resource)" :class="{ small: resource.resource < 99 }" />
+            <img :src="drawingManager.getResourceImg(resource.resource)" :class="{ small: resource.resource < 99 }" />
             <span>{{ resource.count }}</span>
             <span class="minus">({{ resource.count - field.spotsToFeed }})</span>
          </div>
@@ -62,6 +62,19 @@
       <spot-view :spot="preselected.spot" />
    </div>
 
+   <div class="goals">
+      <h4>
+         {{ $t('goals') }}
+      </h4>
+      <div v-for="goal of goals" :class="{ completed: goal.completed }">
+         <div>
+            <img v-if="goal.type === 0" :src="drawingManager.getBiomImg(goal.filter as BiomType)" />
+            <img v-if="goal.type === 1" :src="drawingManager.getResourceImg(goal.filter as ResourceType)" />
+         </div>
+         <span>{{ goal.current }}/{{ goal.count }}</span>
+      </div>
+   </div>
+
    <div class="card-select backdrop" v-if="gameState.roundState === RoundState.CardChoose">
       <div class="inner">
          <div v-for="card of toChoose.cards" class="card" v-on:click="confirmCard(card)">
@@ -69,29 +82,29 @@
                <div>
                   {{ $t('resources.' + card.resource) }}
                </div>
-               <img :src="drawingManager.getSpotResourceImg(card.resource)" />
+               <img :src="drawingManager.getResourceImg(card.resource)" />
             </div>
             <div class="flex-text-row">
                <span class="my-auto">{{ $t('produces') }}</span>
-               <img :src="drawingManager.getSpotResourceImg(card.converts ?? card.resource)" />
+               <img :src="drawingManager.getResourceImg(card.converts ?? card.resource)" />
                <span>x{{ card.power ?? 1 }}&nbsp;</span>
                <div v-for="aoe in card.aoe">
                   <span>{{ aoe.power! > 0 ? '+' : '' }}{{ aoe.power }} {{ $t('forEach') }}</span>
-                  <img :src="drawingManager.getSpotResourceImg(aoe.resource!)" />
+                  <img :src="drawingManager.getResourceImg(aoe.resource!)" />
                   <span>{{ $t('inRange', { x: aoe.range }) }}</span>
                </div>
                <br />
                <span v-if="card.consumes">
                   {{ $t('consume') }}
                   <span v-for="consume in card.consumes">
-                     <img :src="drawingManager.getSpotResourceImg(consume.resource!)" />
+                     <img :src="drawingManager.getResourceImg(consume.resource!)" />
                      <span>x{{ consume.count ?? 1 }}</span>
                   </span>
                </span>
                <br />
                <span v-if="card.passive >= 0">
                   {{ $t('passive') }}
-                  <img :src="drawingManager.getSpotResourceImg(`t${card.passive}`)" />
+                  <img :src="drawingManager.getResourceImg(`t${card.passive}`)" />
                </span>
             </div>
             <div class="big-num">{{ card.num }}</div>
@@ -99,13 +112,21 @@
       </div>
    </div>
 
-   <div class="backdrop game-over" v-if="gameState.roundState === RoundState.GameOver">
+   <div class="backdrop game-over" v-if="gameState.roundState === RoundState.GameOver || gameState.roundState === RoundState.Win">
       <div class="text center" style="--top: 50; --left: 50">
-         {{ $t('gameOver') }}
-         <br />
-         {{ $t('gameOvers.' + gameState.gameOverType) }}
-         <br />
-         <button v-on:click="start()">{{ $t('restart') }}</button>
+         <div v-if="gameState.roundState === RoundState.GameOver">
+            {{ $t('gameOver') }}
+            <br />
+            {{ $t('gameOvers.' + gameState.gameOverType) }}
+            <br />
+         </div>
+         <div v-if="gameState.roundState === RoundState.Win">
+            {{ $t('gameWon') }}
+         </div>
+         <div class="buttons">
+            <button v-on:click="start()">{{ $t('restart') }}</button>
+            <button v-on:click="props.exit()">{{ $t('exit') }}</button>
+         </div>
       </div>
    </div>
    <div class="backdrop tutorial" v-if="false"></div>
@@ -135,8 +156,10 @@ import { RoundStageType } from './enums/round-stage.type';
 import MapSaveManager from './managers/map-save.manager';
 import GameField from './models/game-field';
 import Spot from './models/spot';
+import Goal from './models/goal';
+import GoalManager from './managers/goal.manager';
 
-const props = defineProps({ map: '' } as any);
+const props = defineProps({ map: '', exit: Function } as any);
 
 const drawingManager = inject('DrawingManager')! as DrawingManager;
 const cardManager = inject('CardManager')! as CardManager;
@@ -144,6 +167,7 @@ const audioManager = inject('AudioManager')! as AudioManager;
 const productionManager = new ProductionManager(cardManager);
 const mapsManager = new MapSaveManager();
 const manager = new FieldManager();
+const goalManager = new GoalManager();
 
 let size = reactive({ width: 0, height: 0 });
 let field = reactive({} as GameField);
@@ -156,6 +180,7 @@ const dice = reactive({ values: [1, 1, 1, 1], selected: [] as boolean[], animati
 
 let bank = reactive([] as Cost[]);
 let buildings = reactive([] as Spot[]);
+let goals = reactive([] as Goal[]);
 
 const start = () => {
    gameState.restart();
@@ -165,6 +190,8 @@ const start = () => {
    manager.setField(field, save.width, save.height, save.map);
    size.width = save.width;
    size.height = save.height;
+   goals = save.goals;
+   goalManager.calculate(field, bank, goals);
 };
 
 const placeSelected = (spot: FieldSpot) => {
@@ -229,6 +256,9 @@ const deselect = () => {
 
 const startRoll = () => {
    if (gameState.roundState !== RoundState.Buying && gameState.roundState !== RoundState.BeforeStart) return;
+   goalManager.calculate(field, bank, goals);
+   if (goals.every((x) => x.completed)) return win();
+
    dice.animating = true;
    for (let i = 0; i < 4; i++) dice.selected[i] = false;
    gameState.nextRound();
@@ -242,6 +272,10 @@ const startRoll = () => {
 
    setTimeout(() => randomizeDice(), 600);
    setTimeout(() => (dice.animating = false), 1000);
+};
+
+const win = () => {
+   gameState.roundState = RoundState.Win;
 };
 
 const randomizeDice = () => {

@@ -10,6 +10,7 @@ $highlight: lighten($primary, 5%);
 @import './locales.scss';
 @import './spot.scss';
 @import './menu.scss';
+@import './goals.scss';
 
 @font-face {
    font-family: Hex;
@@ -141,7 +142,8 @@ img {
       span {
          margin: auto 0;
          font-size: 32px;
-         color: #efefef;
+         color: #fffd;
+         text-shadow: 0 0 3px #000;
       }
 
       .red {
@@ -198,7 +200,7 @@ img {
       background-color: #afb1ac;
       font-size: 20px;
       border-radius: 2px;
-      box-shadow: 0 0 10px 4px #fff;
+      box-shadow: 0 0 10px 4px #fff; // variable
 
       &.center {
          transform: translate(-50%, -50%);
@@ -218,9 +220,14 @@ img {
       padding: 30px 50px;
    }
 
+   .buttons {
+      display: flex;
+   }
+
    button {
       font-size: 16px;
       padding: 5px 10px;
+      width: 100px;
       margin: auto;
       border: solid 2px #000;
       border-radius: 50px;

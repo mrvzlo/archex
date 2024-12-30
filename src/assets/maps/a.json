@@ -12,7 +12,7 @@
 
       { "biomType": 2, "spotType": 1 },
       { "biomType": 2, "spotType": 2 },
-      { "biomType": 2, "spotType": 22, "resourceType": 2 },
+      { "biomType": 2, "spotType": 6 },
       { "biomType": 2, "spotType": 6 },
       { "biomType": 2, "spotType": 2 },
       { "biomType": 2, "spotType": 1 },
@@ -22,8 +22,8 @@
       { "biomType": 2, "spotType": 1 },
       { "biomType": 2, "spotType": 2 },
       { "biomType": 2, "spotType": 6 },
-      { "biomType": 2, "spotType": 29, "resourceType": 205 },
-      { "biomType": 2, "spotType": 21, "resourceType": 109 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 1 },
       { "biomType": 2, "spotType": 1 },
 
       { "biomType": 2, "spotType": 1 },
@@ -48,10 +48,7 @@
       { "resource": 10, "count": 5 },
       { "resource": 4, "count": 3 }
    ],
-   "goals": [
-      { "type": 0, "filter": 2, "count": 50 },
-      { "type": 1, "filter": 550, "count": 50 }
-   ],
+   "goals": [{ "type": 1, "filter": 3, "count": 20 }],
    "toolbar": [
       { "spotType": 23, "biomType": 2 },
       { "spotType": 21, "biomType": 2 },

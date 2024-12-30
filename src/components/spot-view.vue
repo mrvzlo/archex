@@ -3,12 +3,12 @@
       <img :src="drawingManager.getSpotImg(spot)" />
       <div class="gain" v-if="spot.animations?.gain > 0">+{{ spot.animations?.gain }}</div>
       <div v-if="spot.resourceType">
-         <img class="resource" :src="drawingManager.getSpotResourceImg(spot.resourceType)" />
+         <img class="resource" :src="drawingManager.getResourceImg(spot.resourceType)" />
          <div class="number">{{ getCard()?.num }}</div>
-         <img class="number number-passive" v-if="getPassive() >= 0" :src="drawingManager.getSpotResourceImg(`t${getPassive()}`)" />
+         <img class="number number-passive" v-if="getPassive() >= 0" :src="drawingManager.getResourceImg(`t${getPassive()}`)" />
 
          <div v-for="consume of getConsumes()">
-            <img class="resource resource-consume" :src="drawingManager.getSpotResourceImg(consume.resource)" />
+            <img class="resource resource-consume" :src="drawingManager.getResourceImg(consume.resource)" />
          </div>
       </div>
    </div>

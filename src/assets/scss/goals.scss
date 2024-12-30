@@ -1,0 +1,49 @@
+.goals {
+   position: fixed;
+   top: calc(30%);
+   right: 10px;
+   min-width: 160px;
+
+   color: #fffd;
+
+   h4 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 15px;
+      margin-top: 0;
+      text-shadow: 0 0 3px #000;
+   }
+
+   img {
+      height: 38px;
+      width: 38px;
+      object-fit: cover;
+      margin: 0 auto;
+      padding: 5px;
+   }
+
+   > div {
+      display: flex;
+      gap: 5px;
+      text-shadow: 0 0 3px #000;
+      font-size: 32px;
+      margin-bottom: 10px;
+
+      > div {
+         margin: auto 0;
+         height: 48px;
+         width: 48px;
+         background-color: #fff9;
+         border: 2px solid black;
+         border-radius: 50%;
+      }
+
+      &.completed {
+         color: #cfb9;
+      }
+   }
+
+   span {
+      margin: auto 0;
+   }
+}

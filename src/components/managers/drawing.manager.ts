@@ -3,7 +3,7 @@ import { ResourceType } from '../enums/resource.type';
 import FieldSpot from '../models/field-spot';
 
 export default class DrawingManager {
-   public getSpotResourceImg(resource: ResourceType | string) {
+   public getResourceImg(resource: ResourceType | string) {
       const folder = this.getResourceFolder();
       if (!folder) return '';
       return folder(`./${resource}.png`);
@@ -13,6 +13,12 @@ export default class DrawingManager {
       const folder = this.getSpotFolder(spot.biomType);
       if (!folder) return '';
       return folder(`./${spot.spotType}.png`);
+   }
+
+   public getBiomImg(biom: BiomType) {
+      const folder = this.getSpotFolder(biom);
+      if (!folder) return '';
+      return folder(`./0.png`);
    }
 
    private getSpotFolder(biom: BiomType) {
