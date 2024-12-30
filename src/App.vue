@@ -4,6 +4,10 @@
 
 <template>
    <div class="settings">
+      <button class="btn-sound" v-on:click="toggleSound()">
+         <span v-if="audioManager.on">🔊</span>
+         <span v-else>🔈</span>
+      </button>
       <div class="locales">
          <div>🌐</div>
          <select @change="(x) => changeLocale(x.target!)">
@@ -11,10 +15,7 @@
             <option value="ru" :selected="localeManager.current === 'ru'">Русский</option>
          </select>
       </div>
-      <button class="btn-sound" v-on:click="toggleSound()">
-         <span v-if="audioManager.on">🔊</span>
-         <span v-else>🔈</span>
-      </button>
+      <button class="btn-exit" v-on:click="exit()" :disabled="!map.num">X</button>
    </div>
    <field-view :map="map.num" v-if="map.num" />
    <main-menu v-if="!map.num" :select="selectMap" />
@@ -50,5 +51,6 @@ const toggleSound = () => {
    storageService.setAudio(audioManager.on);
 };
 
+const exit = () => (map.num = '');
 const selectMap = (x: string) => (map.num = x);
 </script>

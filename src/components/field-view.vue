@@ -56,7 +56,7 @@
 
    <round-clock :nextRound="startRoll" :state="gameState" :animating="dice.animating" />
    <div class="toolbar" :class="{ disabled: gameState.roundState !== RoundState.Buying }">
-      <tool-bar :selectFunc="selectFromToolBar" ref="toolbar" />
+      <tool-bar :selectFunc="selectFromToolBar" :buildings="buildings" />
    </div>
    <div v-if="preselected.spot" class="cursor-img" :style="`top:${mousePosition.y}px;left:${mousePosition.x}px;`">
       <spot-view :spot="preselected.spot" />
@@ -134,6 +134,7 @@ import AudioManager from './managers/audio.manager';
 import { RoundStageType } from './enums/round-stage.type';
 import MapSaveManager from './managers/map-save.manager';
 import GameField from './models/game-field';
+import Spot from './models/spot';
 
 const props = defineProps({ map: '' } as any);
 
@@ -148,18 +149,19 @@ let size = reactive({ width: 0, height: 0 });
 let field = reactive({} as GameField);
 const gameState = reactive(new GameState());
 const mousePosition = reactive({ x: 0, y: 0 });
-let preselected = reactive({ spot: null as unknown as FieldSpot | null });
+let preselected = reactive({ spot: null as unknown as Spot | null });
 let lastPlaced: FieldSpot;
 let toChoose = reactive({ cards: [] as Card[] });
-const toolbar = ref();
 const dice = reactive({ values: [1, 1, 1, 1], selected: [] as boolean[], animating: false, sum: 0, selectedCount: 0 });
 
 let bank = reactive([] as Cost[]);
+let buildings = reactive([] as Spot[]);
 
 const start = () => {
    gameState.restart();
    const save = mapsManager.loadSave(props.map);
    bank = save.bank;
+   buildings = save.toolbar;
    manager.setField(field, save.width, save.height, save.map);
    size.width = save.width;
    size.height = save.height;
@@ -190,7 +192,7 @@ const setupCardsToChoose = () => {
    if (!toChoose.cards.length) gameState.roundState = RoundState.Buying;
 };
 
-const selectFromToolBar = (spot: FieldSpot) => {
+const selectFromToolBar = (spot: Spot) => {
    if (gameState.roundState !== RoundState.Buying) return;
    preselected.spot = spot;
    gameState.roundState = RoundState.Placement;
@@ -213,8 +215,8 @@ window.onkeyup = (event: KeyboardEvent) => {
    if (event.code === 'Enter') startRoll();
    if (event.code.startsWith('Digit')) {
       const key = (Number(event.key) + 9) % 10;
-      if (key >= toolbar.value.buildings.length) return;
-      selectFromToolBar(toolbar.value.buildings[key]);
+      if (key >= buildings.length) return;
+      selectFromToolBar(buildings[key]);
    }
 };
 

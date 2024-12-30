@@ -12,7 +12,7 @@
       },
 
       "2": "Hills",
-      "3": "Rift",
+      "3": "Ruins",
       "4": "Stones",
       "5": {
          "1": "Dead forest",
@@ -123,5 +123,6 @@
       "You lost everything - no food, no weapon, no armor, no water, no help"
    ],
    "startGame": "Choose level to start the game",
-   "empires": ["Human empire"]
+   "empires": ["Human empire"],
+   "goals": "Goals"
 }

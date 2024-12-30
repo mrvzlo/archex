@@ -5,7 +5,6 @@
    right: 0;
    margin: 5px;
    display: flex;
-   flex-direction: row-reverse;
 }
 
 .locales {
@@ -26,21 +25,37 @@
    }
 }
 
-.btn-sound {
-   font-size: 24px;
+.btn-sound,
+.btn-exit {
    background: none;
    border: none;
    cursor: pointer;
    width: 42px;
+   font-size: 24px;
    border: solid 2px black;
-   border-right: none;
    background: var(--back);
    --back: #7f8576;
+}
+
+.btn-exit {
+   border-top-right-radius: 50px;
+   border-bottom-right-radius: 50px;
+   border-left: none;
+   padding-left: 0;
+
+   &:not(:disabled):hover {
+      text-shadow: white 0 0 2px;
+      --back: #f3afdaaf;
+   }
+}
+
+.btn-sound {
    border-top-left-radius: 50px;
    border-bottom-left-radius: 50px;
    text-align: left;
+   border-right: none;
 
-   &:hover {
+   &:not(:disabled):hover {
       text-shadow: white 0 0 2px;
       --back: #afdaf3af;
    }
@@ -59,4 +74,8 @@ select {
    &:focus-visible {
       outline: none;
    }
+}
+
+.hidden {
+   visibility: hidden;
 }

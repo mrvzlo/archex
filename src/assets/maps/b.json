@@ -82,5 +82,16 @@
    "goals": [
       { "type": 0, "filter": 2, "count": 50 },
       { "type": 1, "filter": 550, "count": 50 }
+   ],
+   "toolbar": [
+      { "spotType": 0, "biomType": 2 },
+      { "spotType": 23, "biomType": 2 },
+      { "spotType": 21, "biomType": 2 },
+      { "spotType": 30, "biomType": 2 },
+      { "spotType": 22, "biomType": 2 },
+      { "spotType": 29, "biomType": 2 },
+      { "spotType": 24, "biomType": 2 },
+      { "spotType": 28, "biomType": 3 },
+      { "spotType": 8, "biomType": 2 }
    ]
 }

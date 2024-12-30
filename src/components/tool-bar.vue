@@ -7,30 +7,13 @@
 </template>
 
 <script setup lang="ts">
-import { defineExpose } from 'vue';
 import SpotView from './spot-view.vue';
-import { BiomType } from './enums/biom.type';
 import { SpotType } from './enums/spot.type';
 import { defineProps, reactive } from 'vue';
 import Cost from './models/cost';
 import Spot from './models/spot';
 
 const hovered = reactive({ spot: null as any as Spot | null });
-
-const buildings: Spot[] = [
-   { spotType: SpotType.Fishing, biomType: BiomType.Water },
-   { spotType: SpotType.Woodman, biomType: BiomType.Grass },
-   { spotType: SpotType.Farm, biomType: BiomType.Grass },
-   { spotType: SpotType.Well, biomType: BiomType.Grass },
-   { spotType: SpotType.Empty, biomType: BiomType.Grass },
-   { spotType: SpotType.Cave, biomType: BiomType.Grass },
-   { spotType: SpotType.Fort, biomType: BiomType.Grass },
-   { spotType: SpotType.Village1, biomType: BiomType.Grass },
-   //{ spotType: SpotType.Tower, biomType: BiomType.Grass },
-   { spotType: SpotType.Rift, biomType: BiomType.Grass },
-];
-
-defineExpose({ buildings });
 
 const rules: string[] = [];
 rules[SpotType.Empty] = 'Озеленяет клетку';
@@ -42,7 +25,7 @@ rules[SpotType.Cave] = 'Выкапывается в горе';
 
 const costs: Cost[] = [];
 
-const props = defineProps({ selectFunc: Function });
+const props = defineProps({ selectFunc: Function, buildings: [] });
 
 const selectSpot = (spot: Spot | null) => props.selectFunc!(spot);
 </script>

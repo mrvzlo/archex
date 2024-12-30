@@ -1,0 +1,62 @@
+{
+   "width": 7,
+   "height": 5,
+   "map": [
+      { "biomType": 0, "spotType": 0 },
+      { "biomType": 2, "spotType": 1 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 1 },
+      { "biomType": 2, "spotType": 1 },
+
+      { "biomType": 2, "spotType": 1 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 22, "resourceType": 2 },
+      { "biomType": 2, "spotType": 6 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 1 },
+      { "biomType": 2, "spotType": 0 },
+
+      { "biomType": 2, "spotType": 0 },
+      { "biomType": 2, "spotType": 1 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 6 },
+      { "biomType": 2, "spotType": 29, "resourceType": 205 },
+      { "biomType": 2, "spotType": 21, "resourceType": 109 },
+      { "biomType": 2, "spotType": 1 },
+
+      { "biomType": 2, "spotType": 1 },
+      { "biomType": 2, "spotType": 0 },
+      { "biomType": 2, "spotType": 2 },
+      { "biomType": 2, "spotType": 23, "resourceType": 10 },
+      { "biomType": 2, "spotType": 0 },
+      { "biomType": 2, "spotType": 0 },
+      { "biomType": 2, "spotType": 3 },
+
+      { "biomType": 2, "spotType": 0 },
+      { "biomType": 2, "spotType": 1 },
+      { "biomType": 2, "spotType": 5 },
+      { "biomType": 2, "spotType": 5 },
+      { "biomType": 2, "spotType": 5 },
+      { "biomType": 2, "spotType": 5 },
+      { "biomType": 2, "spotType": 1 }
+   ],
+   "bank": [
+      { "resource": 99, "count": 10, "important": true },
+      { "resource": 199, "count": 15, "important": true },
+      { "resource": 10, "count": 5 },
+      { "resource": 4, "count": 3 }
+   ],
+   "goals": [
+      { "type": 0, "filter": 2, "count": 50 },
+      { "type": 1, "filter": 550, "count": 50 }
+   ],
+   "toolbar": [
+      { "spotType": 23, "biomType": 2 },
+      { "spotType": 21, "biomType": 2 },
+      { "spotType": 22, "biomType": 2 },
+      { "spotType": 29, "biomType": 2 },
+      { "spotType": 8, "biomType": 2 }
+   ]
+}

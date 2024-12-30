@@ -4,6 +4,7 @@ import FieldSpot from '../models/field-spot';
 import { SpotType } from '../enums/spot.type';
 import Cost from '../models/cost';
 import { ResourceType } from '../enums/resource.type';
+import Spot from '../models/spot';
 
 export default class FieldManager {
    public setField(field: GameField, width: number, height: number, spots: FieldSpot[]) {
@@ -35,13 +36,13 @@ export default class FieldManager {
       });
    }
 
-   public setMatches(field: GameField, spot: FieldSpot | null) {
+   public setMatches(field: GameField, spot: Spot | null) {
       field.spots.forEach((x) => {
          x.mismatch = !!spot && (!this.checkMatch(x, spot) || !this.hasNeighboor(field, x.id, true));
       });
    }
 
-   public checkMatch(oldSpot: FieldSpot, newSpot: FieldSpot) {
+   public checkMatch(oldSpot: Spot, newSpot: Spot) {
       return this.checkMatchType(oldSpot.spotType, oldSpot.biomType, newSpot.spotType, newSpot.biomType);
    }
 
