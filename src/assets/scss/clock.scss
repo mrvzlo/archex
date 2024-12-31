@@ -149,3 +149,17 @@ $width: 48px;
       transform: rotate(-360deg);
    }
 }
+
+@media (max-width: 500px) {
+   .clock-inner {
+      width: calc($width * 3 + 23px);
+      height: calc($width * 3 + 23px);
+   }
+}
+
+@media (max-height: 500px) {
+   .clock-inner {
+      width: calc($width * 3 + 23px);
+      height: calc($width * 3 + 23px);
+   }
+}

@@ -37,7 +37,7 @@ const showTooltip = (event: MouseEvent) => {
    document.body.appendChild(tooltip);
    const rect = (event.target as HTMLElement).getBoundingClientRect();
    tooltip.style.left = rect.x + rect.width / 2 + 'px';
-   tooltip.style.top = rect.y + 'px';
+   tooltip.style.top = rect.y - 10 + 'px';
    tooltip.style.minWidth = rect.width + 'px';
    tooltipShown = true;
 };

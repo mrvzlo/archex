@@ -1,5 +1,6 @@
 .goals {
    position: fixed;
+   pointer-events: none;
    top: calc(30%);
    right: 10px;
    min-width: 160px;

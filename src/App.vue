@@ -28,6 +28,7 @@ import MainMenu from './components/main-menu.vue';
 import AudioManager from './components/managers/audio.manager';
 import CardManager from './components/managers/card.manager';
 import DrawingManager from './components/managers/drawing.manager';
+import ResolutionManager from './components/managers/resolution.manager';
 import LocaleManager from './storage/locale.manager';
 import StorageService from './storage/storage.service';
 
@@ -36,6 +37,9 @@ const storageService = new StorageService();
 const localeManager = new LocaleManager();
 const drawingManager = new DrawingManager();
 const audioManager = reactive(new AudioManager(storageService.getAudio()));
+
+const resolutionManager = new ResolutionManager();
+const resolution = reactive({ horizontal: false });
 
 const map = reactive({ num: null as any as string });
 
@@ -50,7 +54,13 @@ const toggleSound = () => {
    audioManager.toggle();
    storageService.setAudio(audioManager.on);
 };
+const checkSize = () => {
+   resolution.horizontal = resolutionManager.upscale();
+   document.body.className = resolution.horizontal ? '' : 'rotate';
+};
 
 const exit = () => (map.num = '');
 const selectMap = (x: string) => (map.num = x);
+checkSize();
+window.addEventListener('resize', () => checkSize());
 </script>

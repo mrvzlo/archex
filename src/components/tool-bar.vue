@@ -16,12 +16,6 @@ import Spot from './models/spot';
 const hovered = reactive({ spot: null as any as Spot | null });
 
 const rules: string[] = [];
-rules[SpotType.Empty] = 'Озеленяет клетку';
-rules[SpotType.Tower] = 'Строится на поляне';
-rules[SpotType.Fort] = 'Строится на поляне';
-rules[SpotType.Farm] = 'Строится на поляне';
-rules[SpotType.Village1] = 'Строится на поляне';
-rules[SpotType.Cave] = 'Выкапывается в горе';
 
 const costs: Cost[] = [];
 
