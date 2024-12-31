@@ -145,6 +145,9 @@
    "help": {
       "a": [
          "Every turn you select a pair of dice. Their sum determines which buildings produce resources. Every day you need to feed every tile with food and every night provide weapons. Otherwise buildings will be destroyed."
+      ],
+      "b": [
+         "Some tiles need to be explored and greened which require water and clothes. Second level buildings produce only if there are enough raw materials. They also have additional production once a day."
       ]
    }
 }
