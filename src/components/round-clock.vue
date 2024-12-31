@@ -1,6 +1,10 @@
 <template>
-   <div class="clock" :class="{ clickable: state.roundState === RoundState.Buying }" v-on:click="nextRound()">
-      <button v-if="state.roundState === RoundState.Buying">Enter</button>
+   <div
+      class="clock"
+      :class="{ clickable: state.roundState === RoundState.Buying || state.roundState === RoundState.BeforeStart }"
+      v-on:click="nextRound()"
+   >
+      <button v-if="state.roundState === RoundState.Buying || state.roundState === RoundState.BeforeStart">Enter</button>
       <div :class="'clock-inner time-' + (state.round > 0 ? state.roundStage : '')">
          <div class="r-45">
             <img src="../assets/images/resources/199.png" />

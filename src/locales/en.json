@@ -34,6 +34,21 @@
       "30": "Well",
       "31": "Well"
    },
+   "rules": {
+      "0": "",
+      "20": "Can be built on lawn",
+      "21": "Can be built on lawn",
+      "22": "Can be built on mountain",
+      "23": "Can be built on forest",
+      "24": "Can be built on lawn",
+      "25": "Can be built on lawn",
+      "26": "Can be built on lawn",
+      "27": "Can be built on lawn",
+      "28": "Can be built on water",
+      "29": "Can be built on lawn",
+      "30": "Can be built on lawn",
+      "31": "Can be built on lawn"
+   },
    "resources": {
       "1": "Well",
       "2": "Stone mine",
@@ -126,5 +141,10 @@
    "startGame": "Choose level to start the game",
    "empires": ["Human empire"],
    "gameWon": "You won! One more?",
-   "goals": "Goals"
+   "goals": "Goals",
+   "help": {
+      "a": [
+         "Every turn you select a pair of dice. Their sum determines which buildings produce resources. Every day you need to feed every tile with food and every night provide weapons. Otherwise buildings will be destroyed."
+      ]
+   }
 }

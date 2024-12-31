@@ -129,7 +129,15 @@
          </div>
       </div>
    </div>
-   <div class="backdrop tutorial" v-if="false"></div>
+   <div class="backdrop tutorial" v-if="!tutorial.read">
+      <div class="text center" style="--top: 50; --left: 50">
+         {{ $t('help.' + props.map + '.0') }}
+
+         <div class="buttons">
+            <button v-on:click="tutorial.read = true">OK</button>
+         </div>
+      </div>
+   </div>
 </template>
 
 <script setup lang="ts">
@@ -177,7 +185,7 @@ let preselected = reactive({ spot: null as unknown as Spot | null });
 let lastPlaced: FieldSpot;
 let toChoose = reactive({ cards: [] as Card[] });
 const dice = reactive({ values: [1, 1, 1, 1], selected: [] as boolean[], animating: false, sum: 0, selectedCount: 0 });
-
+const tutorial = reactive({ read: false });
 let bank = reactive([] as Cost[]);
 let buildings = reactive([] as Spot[]);
 let goals = reactive([] as Goal[]);

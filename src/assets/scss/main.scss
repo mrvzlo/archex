@@ -218,19 +218,6 @@ img {
          transform: translate(-50%, -50%);
       }
    }
-}
-
-.game-over {
-   font-weight: bold;
-   text-align: center;
-   line-height: 1.5;
-
-   .text {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      padding: 30px 50px;
-   }
 
    .buttons {
       display: flex;
@@ -249,6 +236,19 @@ img {
          background-color: #ded;
          box-shadow: 0 0 4px 1px #fff;
       }
+   }
+}
+
+.game-over {
+   font-weight: bold;
+   text-align: center;
+   line-height: 1.5;
+
+   .text {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 30px 50px;
    }
 }
 
